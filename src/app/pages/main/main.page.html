@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <ng-container [ngSwitch]="selectedTab">
+    <app-tab-home *ngSwitchCase="'home'"></app-tab-home>
+    <!--<app-tab-calls *ngSwitchCase="'calls'"></app-tab-calls>-->
+    <app-tab-contacts *ngSwitchCase="'contacts'"></app-tab-contacts>
+    <app-tab-profile *ngSwitchCase="'profile'"></app-tab-profile>
+  </ng-container>
+</ion-content>
+
+<ion-toolbar>
+  <ion-segment mode="md" class="bottom-segment" [(ngModel)]="selectedTab">
+    <ion-segment-button value="home">
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-segment-button>
+
+    <ion-segment-button value="calls">
+      <ion-icon name="call-outline"></ion-icon>
+    </ion-segment-button>
+
+    <ion-segment-button value="contacts">
+      <ion-icon name="people-outline"></ion-icon>
+    </ion-segment-button>
+
+    <ion-segment-button value="profile">
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-segment-button>
+  </ion-segment>
+</ion-toolbar>
+
+

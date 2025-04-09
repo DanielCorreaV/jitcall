@@ -1,0 +1,25 @@
+ion-content {
+    background-color: linear-gradient(to bottom, #4facfe, #00f2fe); 
+  }
+  
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+    ion-spinner {
+        margin-top: 50px;
+        color: red;
+    } 
+  }
+  
+  
+  
+  .logo img {
+    width: 200px;
+    height: auto;
+    border-radius: 10%;
+  }
+  
