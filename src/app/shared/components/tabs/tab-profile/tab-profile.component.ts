@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-tab-profile',
@@ -8,8 +9,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabProfileComponent  implements OnInit {
 
-  constructor() { }
+  
+  profileForm!: FormGroup;
+  isEditing:boolean = false;
 
-  ngOnInit() {}
+  constructor(private fb: FormBuilder) { 
+    
+    
+  }
 
+  ngOnInit() {
+    this.profileForm = this.fb.group({
+      name: [''],
+      surname: [''],
+      email: [''],
+      phone: ['']
+    })
+    this.profileForm.disable();
+  }
+
+  save(){
+    this.toggleEdit();
+  }
+
+  toggleEdit(){
+    this.isEditing = !this.isEditing;
+  }
+
+  deleteProfile(){
+
+  }
 }

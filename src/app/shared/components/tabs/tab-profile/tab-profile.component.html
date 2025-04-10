@@ -1,3 +1,37 @@
-<p>
-  tab-profile works!
-</p>
+<ion-title>My Profile</ion-title>
+
+<img src="assets/icon/placeholder.png" alt="Perfil" class="profile-image">
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm">
+    <div style="margin-bottom: 30px;">
+      <ion-item>
+        <ion-input label="Name" label-placement="stacked" placeholder="Jane" formControlName="name" [disabled]="!isEditing"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Surname" label-placement="stacked" placeholder="Doe" formControlName="surname" [disabled]="!isEditing"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Email" label-placement="stacked" placeholder="example@gmail.com" formControlName="email" [disabled]="!isEditing"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Phone" label-placement="stacked" placeholder="(+57) 123 4567 890)" formControlName="phone" [disabled]="!isEditing"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button expand="full" color="primary" (click)="toggleEdit()" *ngIf="!isEditing">
+      Editar
+    </ion-button>
+
+    <ion-button expand="full" color="success" (click)="save()" *ngIf="isEditing">
+      Guardar
+    </ion-button>
+  </form>
+  <ion-button expand="full" color="danger" (click)="deleteProfile()" *ngIf="!isEditing">
+    Eliminar
+  </ion-button>
+</ion-content>
+
+
