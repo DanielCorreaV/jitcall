@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, deleteDoc, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Contact } from 'src/app/models/contact.model';
-import { User } from 'src/app/models/user.model';
-import { FirebaseService } from './firebase.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class UserService {
     });
   }
 
-  editUser(user: any, uid: string): Promise<void> {
+  editUser(user: Contact, uid: string): Promise<void> {
     const userRef = doc(this.firestore, `users/${uid}`);
     return updateDoc(userRef, {
       name: user.name,
@@ -37,7 +36,6 @@ export class UserService {
     return deleteDoc(userRef);
   }
 
-
   getUserData(uid: string){
     const userRef = doc(this.firestore, `users/${uid}`);
     return getDoc(userRef);
@@ -49,12 +47,13 @@ export class UserService {
   }
 
   addContact(contact: Contact, uid: string): Promise<void> {
-    const userRef = doc(this.firestore, `users/${uid}/contacts`);
-    return setDoc(userRef, {
+    const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
+    return addDoc(contactsRef, {
       name: contact.name,
+      surname: contact.surname,
       phone: contact.phone,
       image: contact.image || ''
-    });
+    }).then(() => {});
   }
 
   editContact(cid: String, contact: Contact, uid: string): Promise<void> {
@@ -63,6 +62,16 @@ export class UserService {
       name: contact.name,
       phone: contact.phone,
       image: contact.image || ''
+    });
+  }
+  
+  getContacts(uid: string): Promise<any[]> {
+    const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
+    return getDocs(contactsRef).then(snapshot => {
+      return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
     });
   }
   

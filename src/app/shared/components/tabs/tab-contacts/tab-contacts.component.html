@@ -1,9 +1,5 @@
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
-<app-contact-item></app-contact-item>
+<h1>CONTACTS</h1>
+@for (user of Users; track user.id) {
+    <app-contact-item [user]="user"></app-contact-item>
+  }
+

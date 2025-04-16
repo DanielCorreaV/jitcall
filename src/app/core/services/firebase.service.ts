@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, User as FirebaseUser, signOut, onAuthStateChanged } from '@angular/fire/auth';
 import { User } from 'src/app/models/user.model';
 import { UserService } from './user.service';
+import { Contact } from 'src/app/models/contact.model';
+import { DocumentSnapshot } from '@angular/fire/firestore';
+import { DocumentData } from 'firebase/firestore/lite';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,8 @@ export class FirebaseService {
   }
 
   logOut() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     return signOut(this.auth);
   }
 
@@ -24,7 +29,7 @@ export class FirebaseService {
     });
   }
 
-  getCurrentUserData(): Promise<any> {
+  getCurrentUserData(): Promise<DocumentSnapshot<DocumentData, DocumentData> | null> {
      return this.getCurrentUser().then(user => {
       if (user) {
         const uid = user.uid;
@@ -36,9 +41,12 @@ export class FirebaseService {
   }
   
 
-  getCurrentUid(): string | null {
+  getCurrentUid(): string {
     const user = this.auth.currentUser;
-    return user ? user.uid : null;
+    if(user){
+      return  user.uid;
+    }
+    return '';
   }
 
   async isAuthenticated(): Promise<boolean> {
