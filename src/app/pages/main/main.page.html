@@ -3,7 +3,7 @@
     <app-tab-home *ngSwitchCase="'home'"></app-tab-home>
     <app-tab-new-user *ngSwitchCase="'calls'"></app-tab-new-user>
     <app-tab-contacts *ngSwitchCase="'contacts'"></app-tab-contacts>
-    <app-tab-profile *ngSwitchCase="'profile'"></app-tab-profile>
+    <app-tab-profile [user]="user" *ngSwitchCase="'profile'"></app-tab-profile>
   </ng-container>
 </ion-content>
 
