@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Contact } from 'src/app/models/contact.model';
@@ -17,9 +18,14 @@ export class MainPage implements OnInit {
   user: any;
   Contacts: any[] = [];
 
-  constructor(private usr: UserService, private fbSvc: FirebaseService) {}
+  constructor(private usr: UserService, private fbSvc: FirebaseService, private router: Router) {
+    this.ViewonEnter();
+  }
 
   async ngOnInit() {
+  }
+
+  async ViewonEnter() {
     const uid = await this.fbSvc.getCurrentUid();
 
     if (uid) {
@@ -33,6 +39,15 @@ export class MainPage implements OnInit {
     this.fbSvc.getCurrentUserData().subscribe(res => {
       this.user=res;
     });
+  }
+
+  logOut(){
+    this.fbSvc.logOut().then(res=>{
+      this.user=null;
+      this.Contacts=[];
+      this.router.navigateByUrl('/login');
+      
+    })
   }
 
   selectTab(tab: string) {

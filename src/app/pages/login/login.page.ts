@@ -54,7 +54,9 @@ export class LoginPage implements OnInit {
         });
         await toast.present();
     
-        this.router.navigate(['/main']); 
+        
+        this.router.navigate(['/main']);
+        
         
       } catch (error) {
         await loading.dismiss();

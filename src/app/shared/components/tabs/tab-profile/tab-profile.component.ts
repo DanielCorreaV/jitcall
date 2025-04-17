@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -18,14 +18,14 @@ export class TabProfileComponent implements OnInit {
 
   @Input() user: Contact | null = null;
   uid: string = '';
+  @Output() islogginOut = new EventEmitter<boolean>();
 
   constructor(
     private fb: FormBuilder,
     private fbSvc: FirebaseService,
     private usr: UserService,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
-    private router: Router
+    private loadingCtrl: LoadingController
   ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
@@ -69,8 +69,7 @@ export class TabProfileComponent implements OnInit {
   }
 
   logOut() {
-    this.fbSvc.logOut();
-    this.router.navigate(['/login']);
+    this.islogginOut.emit(true);
   }
 
   async onSubmit() {

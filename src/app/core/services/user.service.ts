@@ -37,6 +37,15 @@ export class UserService {
     return deleteDoc(userRef);
   }
 
+  getUsers(): Promise<any[]> {
+    const usersRef = collection(this.firestore, `users`);
+    return getDocs(usersRef).then(snapshot => {
+      return snapshot.docs.map(doc => ({
+        ...doc.data()
+      }));
+    });
+  }
+
   getUserData(uid: string){
     const userRef = doc(this.firestore, `users/${uid}`);
     return getDoc(userRef);
@@ -85,6 +94,13 @@ export class UserService {
       }as Contact;
     });
   }
+
+  async isPhoneRegistered(phone: string): Promise<boolean> {
+    const users = await this.getUsers();
+    return users.some(user => user.phone === phone);
+  }
+  
+  
   
   
 

@@ -64,7 +64,14 @@ export class FirebaseService {
   }
 
   register(user: User): Promise<void> {
-    return createUserWithEmailAndPassword(this.auth, user.email, user.password)
+
+    let isAllowed: boolean = false;
+    this.usr.isPhoneRegistered(user.phone).then(res=>{
+      isAllowed=!res;
+    })
+
+    if(isAllowed){
+      return createUserWithEmailAndPassword(this.auth, user.email, user.password)
       .then(cred => {
         const uid = cred.user.uid;
         console.log('[Auth] Usuario registrado con UID:', uid);
@@ -76,7 +83,14 @@ export class FirebaseService {
         console.error('[Auth] Error al registrar usuario:', error);
         throw error;
       });
-  }
+    }else{
+      throw new Error('El numero de telefono ya esta registrado');
+    }
+    }
+
+    
+
+  
   
 }
 
