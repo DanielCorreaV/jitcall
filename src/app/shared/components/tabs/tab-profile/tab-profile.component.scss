@@ -1,0 +1,70 @@
+
+
+ion-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 16px;
+  color: #222;
+}
+
+.profile-image {
+  display: block;
+  margin: 24px auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #3880ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+}
+
+ion-item {
+  --background: transparent;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  --padding-start: 8px;
+  --inner-padding-end: 8px;
+  --min-height: 50px;
+  box-shadow: inset 0 0 0 1px #ddd;
+}
+
+ion-input {
+  font-size: 16px;
+  color: #333;
+}
+
+ion-input::part(native) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+ion-button {
+  margin-top: 14px;
+  height: 48px;
+  --border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+ion-button[color="primary"] {
+  --background: #3880ff;
+}
+
+ion-button[color="success"] {
+  --background: #10dc60;
+}
+
+ion-button[color="danger"] {
+  --background: #eb445a;
+}

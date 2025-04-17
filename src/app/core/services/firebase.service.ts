@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, User as FirebaseUser, signOut, onAuthStateChanged } from '@angular/fire/auth';
 import { User } from 'src/app/models/user.model';
 import { UserService } from './user.service';
-import { Contact } from 'src/app/models/contact.model';
-import { doc, docData, DocumentSnapshot, Firestore } from '@angular/fire/firestore';
-import { DocumentData } from 'firebase/firestore/lite';
+import { doc, docData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -63,30 +61,24 @@ export class FirebaseService {
     return !!user;
   }
 
-  register(user: User): Promise<void> {
-
-    let isAllowed: boolean = false;
-    this.usr.isPhoneRegistered(user.phone).then(res=>{
-      isAllowed=!res;
-    })
-
-    if(isAllowed){
-      return createUserWithEmailAndPassword(this.auth, user.email, user.password)
-      .then(cred => {
-        const uid = cred.user.uid;
-        console.log('[Auth] Usuario registrado con UID:', uid);
+  async register(user: User): Promise<void> {
+    try {
+      const isRegistered = await this.usr.isPhoneRegistered(user.phone);
+      
+      if (isRegistered) {
+        throw new Error('the phone number is already registered');
+      }
   
-        // Guarda el resto de datos en Firestore
-        return this.usr.addUser(user, uid);
-      })
-      .catch(error => {
-        console.error('[Auth] Error al registrar usuario:', error);
-        throw error;
-      });
-    }else{
-      throw new Error('El numero de telefono ya esta registrado');
+      const cred = await createUserWithEmailAndPassword(this.auth, user.email, user.password);
+      const uid = cred.user.uid;
+  
+      await this.usr.addUser(user, uid);
+    } catch (error) {
+      console.error('Error when registering user:', error);
+      throw error;
     }
-    }
+  }
+  
 
     
 

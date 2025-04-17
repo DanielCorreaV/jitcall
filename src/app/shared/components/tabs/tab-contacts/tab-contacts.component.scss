@@ -1,0 +1,30 @@
+
+:host {
+    display: block;
+    background-color: #f4f6f9;
+    padding: 16px;
+    min-height: 100%;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e1e1e;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  app-contact-item {
+    display: block;
+    margin-bottom: 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    transition: transform 0.2s ease;
+  }
+  
+  app-contact-item:hover {
+    transform: scale(1.01);
+  }
+  

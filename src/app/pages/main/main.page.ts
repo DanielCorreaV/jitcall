@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Contact } from 'src/app/models/contact.model';
@@ -11,14 +12,17 @@ import { Contact } from 'src/app/models/contact.model';
   styleUrls: ['./main.page.scss'],
   standalone: false
 })
-// main.page.ts
 
 export class MainPage implements OnInit {
-  selectedTab = 'home';
+  selectedTab = 'contacts';
   user: any;
   Contacts: any[] = [];
 
-  constructor(private usr: UserService, private fbSvc: FirebaseService, private router: Router) {
+  constructor(
+    private usr: UserService,
+    private fbSvc: FirebaseService,
+    private navCtrl: NavController
+  ) {
     this.ViewonEnter();
   }
 
@@ -37,16 +41,16 @@ export class MainPage implements OnInit {
     }
 
     this.fbSvc.getCurrentUserData().subscribe(res => {
-      this.user=res;
+      this.user = res;
     });
   }
 
-  logOut(){
-    this.fbSvc.logOut().then(res=>{
-      this.user=null;
-      this.Contacts=[];
-      this.router.navigateByUrl('/login');
-      
+  logOut() {
+    this.fbSvc.logOut().then(res => {
+      this.user = null;
+      this.Contacts = [];
+      this.navCtrl.navigateRoot('/login');
+
     })
   }
 

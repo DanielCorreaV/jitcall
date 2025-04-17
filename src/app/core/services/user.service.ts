@@ -10,7 +10,7 @@ import { Contact } from 'src/app/models/contact.model';
 })
 export class UserService {
 
-  constructor(private firestore: Firestore, private auth: Auth) {}
+  constructor(private firestore: Firestore) {}
 
   addUser(user: any, uid: string): Promise<void> {
     const userRef = doc(this.firestore, `users/${uid}`);
@@ -56,15 +56,26 @@ export class UserService {
     return deleteDoc(contactRef);
   }
 
-  addContact(contact: Contact, uid: string): Promise<void> {
-    const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
-    return addDoc(contactsRef, {
-      name: contact.name,
-      surname: contact.surname,
-      phone: contact.phone,
-      image: contact.image || ''
-    }).then(() => {});
+  async addContact(contact: Contact, uid: string): Promise<void> {
+    try {
+      const isAllowed = await this.isPhoneRegistered(contact.phone);
+      if (isAllowed) {
+        const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
+        await addDoc(contactsRef, {
+          name: contact.name,
+          surname: contact.surname,
+          phone: contact.phone,
+          image: contact.image || ''
+        });
+      } else {
+        throw new Error('The user does not exist.');
+      }
+    } catch (error) {
+      console.error("Error adding contact:", error);
+      throw error;
+    }
   }
+  
 
   editContact(contact: Contact, uid: string, cid: String): Promise<void> {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
@@ -86,7 +97,7 @@ export class UserService {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
     return getDoc(contactRef).then(docSnap => {
       if (!docSnap.exists()) {
-        throw new Error('El contacto no existe');
+        throw new Error('The user does not exist.');
       }
       return {
         id: docSnap.id,

@@ -1,0 +1,54 @@
+/* Puedes colocar esto en el archivo .scss o .css correspondiente a tu componente */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  background: #f4f4f4;
+  min-height: 100%;
+}
+
+.register-contact {
+  background: #fff;
+  padding: 30px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #2c3e50;
+}
+
+.login-item {
+  margin-bottom: 20px;
+  --background: #fff;
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --highlight-color-focused: #3880ff;
+}
+
+.login-button {
+  margin-top: 20px;
+  --background: #3880ff;
+  --color: #fff;
+  --border-radius: 12px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: scale(1.03);
+}

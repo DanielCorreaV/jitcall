@@ -22,7 +22,6 @@ export class TabProfileComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private fbSvc: FirebaseService,
     private usr: UserService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
@@ -37,13 +36,6 @@ export class TabProfileComponent implements OnInit {
 
   async ngOnInit() {
     this.profileForm.disable();
-
-    const uid = await this.fbSvc.getCurrentUid();
-    if (uid) {
-      this.uid = uid;
-    } else {
-      console.error('UID not available');
-    }
 
     if (this.user) {
       this.setUserData(this.user);

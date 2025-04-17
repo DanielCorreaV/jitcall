@@ -69,7 +69,7 @@ export class TabNewContactComponent implements OnInit {
     } catch (err) {
       console.error(err);
       const toast = await this.toastCtrl.create({
-        message: 'Error adding contact. Try again later.',
+        message: err+"",
         duration: 3000,
         color: 'danger'
       });
