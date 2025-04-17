@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ContactItemComponent  implements OnInit {
 
-  @Input() user: any;
+  @Input() contact: any;
 
   constructor() { }
 

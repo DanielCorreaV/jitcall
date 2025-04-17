@@ -2,7 +2,7 @@
   <ng-container [ngSwitch]="selectedTab">
     <app-tab-home *ngSwitchCase="'home'"></app-tab-home>
     <app-tab-new-contact *ngSwitchCase="'new-contact'"></app-tab-new-contact> 
-    <app-tab-contacts *ngSwitchCase="'contacts'"></app-tab-contacts>
+    <app-tab-contacts [Contacts]="Contacts" *ngSwitchCase="'contacts'"></app-tab-contacts>
     <app-tab-profile [user]="user" *ngSwitchCase="'profile'"></app-tab-profile>
   </ng-container>
 </ion-content>

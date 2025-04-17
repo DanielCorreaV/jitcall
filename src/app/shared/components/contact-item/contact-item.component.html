@@ -1,14 +1,15 @@
 
 <ion-row class="contact-row">
+
   <ion-col size="auto">
     <img src="assets/icon/placeholder.png">
   </ion-col>
 
-  <ion-col class="contact-info">
-    <span>{{user.name +" "+ user.surname}}</span>
-    <p class="contact-number">+57 {{user.phone}}</p> 
+  <ion-col class="contact-info" routerLink="/view/{{contact.id}}">
+    <span>{{contact.name +" "+ contact.surname}}</span>
+    <p class="contact-number">+57 {{contact.phone}}</p> 
   </ion-col>
-  
+
 
   <ion-col size="auto">
     <ion-button fill="clear" class="call-button">

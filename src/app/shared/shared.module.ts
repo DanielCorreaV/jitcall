@@ -7,6 +7,7 @@ import { TabHomeComponent } from './components/tabs/tab-home/tab-home.component'
 import { TabProfileComponent } from './components/tabs/tab-profile/tab-profile.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TabNewContactComponent } from './components/tabs/tab-new-contact/tab-new-contact.component';
+import { RouterLink } from '@angular/router';
 
 const components=[
   ContactItemComponent,
@@ -22,6 +23,7 @@ const components=[
   imports: [
     CommonModule,
     IonicModule,
+    RouterLink,
     ReactiveFormsModule
   ],
   exports: [components]

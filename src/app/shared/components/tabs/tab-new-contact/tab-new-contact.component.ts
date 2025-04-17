@@ -10,7 +10,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./tab-new-contact.component.scss'],
   standalone: false
 })
-export class TabNewContactComponent  implements OnInit {
+export class TabNewContactComponent implements OnInit {
 
   newContactForm: FormGroup;
 
@@ -20,27 +20,62 @@ export class TabNewContactComponent  implements OnInit {
     private fbSvc: FirebaseService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
-  ) { 
+  ) {
     this.newContactForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]] 
+      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
     });
   }
 
   ngOnInit() {}
 
-  onSubmit(){
-    if(this.newContactForm.valid){
-
-      this.usr.addContact(this.newContactForm.value, this.fbSvc.getCurrentUid()).then(res=>{
-        console.log(res);
-      }).catch(err=>{
-        console.log(err)
-      })
-
+  async onSubmit() {
+    if (!this.newContactForm.valid) {
+      const toast = await this.toastCtrl.create({
+        message: 'Please fill in all fields correctly',
+        duration: 2000,
+        color: 'danger',
+        position: 'top'
+      });
+      toast.present();
+      return;
     }
 
-  }
+    const loading = await this.loadingCtrl.create({
+      message: 'Saving contact...',
+      spinner: 'circles'
+    });
+    await loading.present();
 
+    try {
+      const uid = await this.fbSvc.getCurrentUid();
+
+      if (uid) {
+        await this.usr.addContact(this.newContactForm.value, uid);
+
+        this.newContactForm.reset();
+
+        const toast = await this.toastCtrl.create({
+          message: 'Contact added successfully!',
+          duration: 2000,
+          color: 'success',
+          position: 'top'
+        });
+        toast.present();
+      } else {
+        throw new Error('User UID not found');
+      }
+    } catch (err) {
+      console.error(err);
+      const toast = await this.toastCtrl.create({
+        message: 'Error adding contact. Try again later.',
+        duration: 3000,
+        color: 'danger'
+      });
+      toast.present();
+    } finally {
+      loading.dismiss();
+    }
+  }
 }

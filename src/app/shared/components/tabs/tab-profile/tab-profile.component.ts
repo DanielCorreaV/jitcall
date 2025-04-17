@@ -12,37 +12,39 @@ import { Contact } from 'src/app/models/contact.model';
   styleUrls: ['./tab-profile.component.scss'],
   standalone: false
 })
-export class TabProfileComponent  implements OnInit {
-
-  
+export class TabProfileComponent implements OnInit {
   profileForm!: FormGroup;
-  isEditing:boolean = false;
-  
+  isEditing: boolean = false;
+
   @Input() user: Contact | null = null;
+  uid: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private firebaseSvc: FirebaseService,
+    private fbSvc: FirebaseService,
     private usr: UserService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) { 
-    
+  ) {
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
+      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      image: ['']
     });
-    
   }
 
-  ngOnInit() {
-    
+  async ngOnInit() {
     this.profileForm.disable();
-  }
 
-  ngOnChanges() {
+    const uid = await this.fbSvc.getCurrentUid();
+    if (uid) {
+      this.uid = uid;
+    } else {
+      console.error('UID not available');
+    }
+
     if (this.user) {
       this.setUserData(this.user);
     }
@@ -57,64 +59,59 @@ export class TabProfileComponent  implements OnInit {
     });
   }
 
-  toggleEdit(){
+  toggleEdit() {
     this.isEditing = !this.isEditing;
-    if(this.isEditing) this.profileForm.enable();
+    if (this.isEditing) {
+      this.profileForm.enable();
+    } else {
+      this.profileForm.disable();
+    }
   }
 
-  logOut(){
-    this.firebaseSvc.logOut();
+  logOut() {
+    this.fbSvc.logOut();
     this.router.navigate(['/login']);
   }
 
-  async onSubmit(){
-    
-      const loading = await this.loadingCtrl.create({
-        message: 'Updating account...',
-        spinner: 'circles',
-        backdropDismiss: false
-      });
-      loading.present();
-  
-      if(this.profileForm.valid){
-    
-        this.usr.editUser(this.profileForm.value, this.firebaseSvc.getCurrentUid()).then(async () => {
-          await loading.dismiss();
-    
-          const toast = await this.toastCtrl.create({
-            message: 'Account updated successfully!',
-            duration: 2000,
-            color: 'success',
-            position: 'top'
-          });
-          toast.present();
-          this.toggleEdit();
-          
-        }).catch(async err => {
-          await loading.dismiss();
-    
-          const toast = await this.toastCtrl.create({
-            message: 'Something went wrong, try later',
-            duration: 3000,
-            color: 'danger'
-          });
-          toast.present();
-        });
-      }
-      else{
-        loading.dismiss();
+  async onSubmit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Updating account...',
+      spinner: 'circles',
+      backdropDismiss: false
+    });
+    await loading.present();
+
+    if (this.profileForm.valid) {
+      this.usr.editUser(this.profileForm.value, this.uid).then(async () => {
+        await loading.dismiss();
+
         const toast = await this.toastCtrl.create({
-          message: 'Invalid data',
+          message: 'Account updated successfully!',
+          duration: 2000,
+          color: 'success',
+          position: 'top'
+        });
+        toast.present();
+        this.toggleEdit();
+      }).catch(async err => {
+        await loading.dismiss();
+
+        const toast = await this.toastCtrl.create({
+          message: 'Something went wrong, try later',
           duration: 3000,
           color: 'danger'
         });
         toast.present();
-      }
-
-
-      
-    
-
+      });
+    } else {
+      await loading.dismiss();
+      const toast = await this.toastCtrl.create({
+        message: 'Invalid data',
+        duration: 3000,
+        color: 'danger'
+      });
+      toast.present();
+    }
   }
-
 }
+

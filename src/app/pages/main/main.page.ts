@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '@angular/fire/auth';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
+import { UserService } from 'src/app/core/services/user.service';
+import { Contact } from 'src/app/models/contact.model';
+
 
 @Component({
   selector: 'app-main',
@@ -8,29 +10,33 @@ import { FirebaseService } from 'src/app/core/services/firebase.service';
   styleUrls: ['./main.page.scss'],
   standalone: false
 })
+// main.page.ts
+
 export class MainPage implements OnInit {
   selectedTab = 'home';
   user: any;
+  Contacts: any[] = [];
 
-  constructor(private firebaseSrv: FirebaseService) { 
-    
-  }
+  constructor(private usr: UserService, private fbSvc: FirebaseService) {}
 
-  ngOnInit() {
-    this.firebaseSrv.getCurrentUserData().then(docSnap => {
-      if (docSnap && docSnap.exists()) {
-        const userData = docSnap.data();
-        this.user=userData;
-      } else {
-        this.user= null;
-        console.log('No se encontró la información del usuario.');
-      }
-    })
-    
+  async ngOnInit() {
+    const uid = await this.fbSvc.getCurrentUid();
+
+    if (uid) {
+      this.usr.getContacts(uid).subscribe(contacts => {
+        this.Contacts = contacts;
+      });
+    } else {
+      console.error('Usuario no autenticado.');
+    }
+
+    this.fbSvc.getCurrentUserData().subscribe(res => {
+      this.user=res;
+    });
   }
 
   selectTab(tab: string) {
     this.selectedTab = tab;
   }
-
 }
+

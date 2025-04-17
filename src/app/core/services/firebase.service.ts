@@ -3,15 +3,16 @@ import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, User 
 import { User } from 'src/app/models/user.model';
 import { UserService } from './user.service';
 import { Contact } from 'src/app/models/contact.model';
-import { DocumentSnapshot } from '@angular/fire/firestore';
+import { doc, docData, DocumentSnapshot, Firestore } from '@angular/fire/firestore';
 import { DocumentData } from 'firebase/firestore/lite';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  constructor(private auth: Auth, private usr: UserService) {}
+  constructor(private auth: Auth, private usr: UserService,private firestore: Firestore) {}
 
   login(email: string, password: string) {
     return signInWithEmailAndPassword(this.auth, email, password);
@@ -29,24 +30,32 @@ export class FirebaseService {
     });
   }
 
-  getCurrentUserData(): Promise<DocumentSnapshot<DocumentData, DocumentData> | null> {
-     return this.getCurrentUser().then(user => {
-      if (user) {
-        const uid = user.uid;
-        //console.log('[Auth] UID del usuario actual:', uid);
-        return this.usr.getUserData(uid);
-      }
-      return null;
+  getCurrentUserData(): Observable<any | null> {
+    return new Observable(observer => {
+      this.getCurrentUser().then(user => {
+        if (user) {
+          const uid = user.uid;
+          const userRef = doc(this.firestore, `users/${uid}`);
+          docData(userRef, { idField: 'id' }).subscribe(data => {
+            observer.next(data);
+          }, err => observer.error(err));
+        } else {
+          observer.next(null);
+        }
+      });
     });
   }
   
-
-  getCurrentUid(): string {
-    const user = this.auth.currentUser;
-    if(user){
-      return  user.uid;
-    }
-    return '';
+  async getCurrentUid(): Promise<string | null> {
+    return new Promise((resolve) => {
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          resolve(user.uid);
+        } else {
+          resolve(null);
+        }
+      });
+    });
   }
 
   async isAuthenticated(): Promise<boolean> {

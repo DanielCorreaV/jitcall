@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/contacts"></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding profile-container">
+  <div class="profile-header">
+    <img [src]="contact?.image || 'assets/icon/placeholder.png'" alt="Perfil" class="profile-image">
+  </div>
+
+  <form [formGroup]="ContactForm" class="profile-form">
+    
+    <div class="action-buttons" *ngIf="!isEditing">
+      <ion-button fill="clear" class="square-button" (click)="deleteContact()">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    
+      <ion-button fill="clear" class="square-button" (click)="toggleEdit()">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </div>
+    
+    
+    
+      
+    
+    <div class="form-group">
+      <ion-item>
+        <ion-input label="Name" label-placement="stacked" placeholder="Jane" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Surname" label-placement="stacked" placeholder="Doe" formControlName="surname"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Phone" label-placement="stacked" placeholder="(+57) 123 4567 890" formControlName="phone"></ion-input>
+      </ion-item>
+    </div>
+
+    <ion-button type="submit" expand="full" color="primary" (click)="onSubmit()" *ngIf="isEditing">
+      Save
+    </ion-button>
+  </form>
+</ion-content>
+

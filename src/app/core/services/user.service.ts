@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { Contact } from 'src/app/models/contact.model';
 
 
@@ -41,7 +42,7 @@ export class UserService {
     return getDoc(userRef);
   }
 
-  deleteContact(cid: String, uid: string): Promise<void> {
+  deleteContact(uid: string, cid: String): Promise<void> {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
     return deleteDoc(contactRef);
   }
@@ -56,24 +57,35 @@ export class UserService {
     }).then(() => {});
   }
 
-  editContact(cid: String, contact: Contact, uid: string): Promise<void> {
+  editContact(contact: Contact, uid: string, cid: String): Promise<void> {
     const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
     return updateDoc(contactRef, {
       name: contact.name,
+      surname: contact.surname,
       phone: contact.phone,
       image: contact.image || ''
     });
   }
   
-  getContacts(uid: string): Promise<any[]> {
+  getContacts(uid: string): Observable<any[]> {
     const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
-    return getDocs(contactsRef).then(snapshot => {
-      return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
+    return collectionData(contactsRef, { idField: 'id' }) as Observable<any[]>;
+  }
+  
+
+  getContactById(uid: string, cid: string): Promise<Contact> {
+    const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
+    return getDoc(contactRef).then(docSnap => {
+      if (!docSnap.exists()) {
+        throw new Error('El contacto no existe');
+      }
+      return {
+        id: docSnap.id,
+        ...docSnap.data()
+      }as Contact;
     });
   }
+  
   
 
 }
