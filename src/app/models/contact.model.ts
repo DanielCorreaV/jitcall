@@ -4,4 +4,5 @@ export interface Contact{
     surname: string,
     phone: string,
     image?: string,
+    token?: string
 }

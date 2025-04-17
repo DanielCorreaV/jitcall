@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Contact } from 'src/app/models/contact.model';
 
@@ -18,7 +17,8 @@ export class UserService {
       name: user.name,
       surname: user.surname,
       phone: user.phone,
-      image: user.image || ''
+      image: user.image || '',
+      token: ''
     });
   }
 
@@ -109,6 +109,25 @@ export class UserService {
   async isPhoneRegistered(phone: string): Promise<boolean> {
     const users = await this.getUsers();
     return users.some(user => user.phone === phone);
+  }
+
+  async getTokenByPhone(phone: string): Promise<string | null> {
+    const q = query(collection(this.firestore, 'users'), where('phone', '==', phone));
+    const querySnapshot = await getDocs(q);
+  
+    if (!querySnapshot.empty) {
+      const userData = querySnapshot.docs[0].data();
+      return userData['token'] || null;
+    }
+  
+    return null;
+  }
+
+  setToken(uid: string, Utoken: string): Promise<void>{
+    const userRef = doc(this.firestore, `users/${uid}`);
+    return updateDoc(userRef, {
+      token: Utoken
+    });
   }
   
   
