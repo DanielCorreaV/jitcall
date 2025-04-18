@@ -4,17 +4,32 @@ import { User } from 'src/app/models/user.model';
 import { UserService } from './user.service';
 import { doc, docData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { FcmService } from './fcm.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  constructor(private auth: Auth, private usr: UserService,private firestore: Firestore) {}
+  constructor(
+    private auth: Auth,
+    private usr: UserService,
+    private firestore: Firestore,
+    private fcm: FcmService
+    ) {}
 
-  login(email: string, password: string) {
-    return signInWithEmailAndPassword(this.auth, email, password);
-  }
+    async login(email: string, password: string) {
+      const res = await signInWithEmailAndPassword(this.auth, email, password);
+    
+      const token = await this.fcm.initPush(); 
+      if (token) {
+        await this.usr.setToken(res.user.uid, token);
+      }
+    
+      return res;
+    }
+    
+    
 
   logOut() {
     localStorage.removeItem('access_token');

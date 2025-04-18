@@ -23,7 +23,9 @@ export class UserService {
   }
 
   editUser(user: Contact, uid: string): Promise<void> {
+    console.log(user, " ", uid);
     const userRef = doc(this.firestore, `users/${uid}`);
+    
     return updateDoc(userRef, {
       name: user.name,
       surname: user.surname,

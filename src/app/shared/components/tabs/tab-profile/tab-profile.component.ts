@@ -23,6 +23,7 @@ export class TabProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usr: UserService,
+    private fbSvc: FirebaseService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
@@ -32,6 +33,13 @@ export class TabProfileComponent implements OnInit {
       phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       image: ['']
     });
+
+    this.fbSvc.getCurrentUid().then(res=>{
+      if(res){
+        this.uid = res;
+      }
+    })
+    
   }
 
   async ngOnInit() {

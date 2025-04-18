@@ -1,4 +1,3 @@
-
 <ion-row class="contact-row">
 
   <ion-col size="auto">
@@ -7,13 +6,13 @@
 
   <ion-col class="contact-info" routerLink="/view/{{contact.id}}">
     <span>{{contact.name +" "+ contact.surname}}</span>
-    <p class="contact-number">+57 {{contact.phone}}</p> 
+    <p class="contact-number">+57 {{contact.phone}}</p>
   </ion-col>
 
 
   <ion-col size="auto">
-    <ion-button fill="clear" class="call-button">
+    <ion-button fill="clear" (click)="call()" class="call-button">
       <ion-icon name="videocam"></ion-icon>
     </ion-button>
-  </ion-col>   
+  </ion-col>
 </ion-row>

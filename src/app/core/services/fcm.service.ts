@@ -21,7 +21,7 @@ export class FcmService {
     private platform: Platform,
     private toastCtrl: ToastController
   ) {
-    if (this.platform.is('capacitor')) this.initPush();
+    
   }
 
   private async showToast(message: string, color: string = 'primary') {
@@ -34,41 +34,48 @@ export class FcmService {
     await toast.present();
   }
 
-  initPush() {
-    console.log('Initializing Push Notifications');
-
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-        PushNotifications.register();
-      } else {
-        this.showToast('Push notification permission denied', 'danger');
-      }
-    });
-
-    PushNotifications.addListener('registration', (token: Token) => {
-      this.fcmToken = token.value;
-      this.showToast('Push registration success');
-      console.log('FCM Token:', token.value);
-    });
-
-    PushNotifications.addListener('registrationError', (error: any) => {
-      console.error('Registration error:', error);
-      this.showToast('Push registration error', 'danger');
-    });
-
-    PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
-      this.notificationReceived$.next(notification);
-      console.log('Notification received:', notification);
-    });
-
-    PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
-      this.notificationAction$.next(notification);
-      console.log('Notification action performed:', notification);
+  async initPush(): Promise<string | null> {
+    if (!this.platform.is('capacitor')) return null;
+  
+    const perm = await PushNotifications.requestPermissions();
+    if (perm.receive !== 'granted') {
+      await this.showToast('Permiso denegado para notificaciones push', 'danger');
+      return null;
+    }
+  
+    return new Promise((resolve, reject) => {
+      PushNotifications.register();
+  
+      PushNotifications.addListener('registration', (token: Token) => {
+        this.fcmToken = token.value;
+        this.showToast('Push registration success');
+        console.log('FCM Token:', token.value);
+        resolve(token.value);
+      });
+  
+      PushNotifications.addListener('registrationError', (error: any) => {
+        console.error('Registration error:', error);
+        this.showToast('Error en el registro de notificaciones', 'danger');
+        reject(null);
+      });
+  
+      // Escucha las notificaciones recibidas en foreground
+      PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+        this.notificationReceived$.next(notification);
+        console.log('Notification received:', notification);
+      });
+  
+      // Escucha las acciones de las notificaciones
+      PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
+        this.notificationAction$.next(notification);
+        console.log('Notification action performed:', notification);
+      });
     });
   }
+  
 
   getToken(): string | null {
-    return this.fcmToken;
+    return this.fcmToken; 
   }
 
   onNotificationReceived() {

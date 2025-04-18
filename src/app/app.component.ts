@@ -9,6 +9,11 @@ import { FcmService } from './core/services/fcm.service';
 })
 export class AppComponent {
   constructor(private fcm: FcmService) {
-    this.fcm.initPush();
+    this.fcm.onNotificationReceived().subscribe(notification => {
+      if (notification) {
+        console.log('Notificación en foreground:', notification);
+        // podrías mostrar un modal, toast, etc.
+      }
+    });
   }
 }
