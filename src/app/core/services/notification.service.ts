@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,4 +37,32 @@ export class NotificationService {
       }
     );
   }
+
+  async getToken(): Promise<string | null> {
+    const body = { 
+      email: 'daniel.correavega@unicolombo.edu.co',
+      password: 'daniel3d'
+    };
+  
+    try {
+      const res = await firstValueFrom(
+        this.http.post<any>('https://ravishing-courtesy-production.up.railway.app/user/login', body)
+      );
+  
+      const token = res?.data?.access_token;
+      if (token) {
+        localStorage.setItem('ravishing_token', token);
+        return token;
+      }
+  
+      return null;
+    } catch (error) {
+      console.error('Error al obtener el token:', error);
+      return null;
+    }
+  }
+
+
+
+
 }

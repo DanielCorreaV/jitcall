@@ -28,5 +28,6 @@
 </ion-toolbar>
 
 @if(callID){
+<ion-button expand="full" style="z-index: 100;" (click)="closeframe()">Close Call</ion-button>
 <app-call [meetingId]="callID"></app-call>
 }

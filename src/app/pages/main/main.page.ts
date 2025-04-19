@@ -62,5 +62,9 @@ export class MainPage implements OnInit {
   setcallID($event: string){
     this.callID= $event;
   }
+
+  closeframe(){
+    this.callID= null;
+  }
 }
 
