@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Contact } from 'src/app/models/contact.model';
@@ -12,11 +12,18 @@ import { Contact } from 'src/app/models/contact.model';
 export class TabContactsComponent  implements OnInit {
 
   @Input() Contacts: any[]=[];
+  @Output() callID = new EventEmitter<string>();
+
 
   constructor(private usr: UserService, private fbSvc: FirebaseService) { }
 
   ngOnInit() {
    
   }
+
+  openFrame($event: string) {
+    this.callID.emit($event);
+  }
+
 
 }

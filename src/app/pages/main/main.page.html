@@ -1,8 +1,8 @@
 <ion-content [fullscreen]="true">
   <ng-container [ngSwitch]="selectedTab">
     <app-tab-home *ngSwitchCase="'home'"></app-tab-home>
-    <app-tab-new-contact *ngSwitchCase="'new-contact'"></app-tab-new-contact> 
-    <app-tab-contacts [Contacts]="Contacts" *ngSwitchCase="'contacts'"></app-tab-contacts>
+    <app-tab-new-contact *ngSwitchCase="'new-contact'"></app-tab-new-contact>
+    <app-tab-contacts [Contacts]="Contacts" (callID)="setcallID($event)" *ngSwitchCase="'contacts'"></app-tab-contacts>
     <app-tab-profile [user]="user" (islogginOut)="logOut()" *ngSwitchCase="'profile'"></app-tab-profile>
   </ng-container>
 </ion-content>
@@ -27,4 +27,6 @@
   </ion-segment>
 </ion-toolbar>
 
-
+@if(callID){
+<app-call [meetingId]="callID"></app-call>
+}

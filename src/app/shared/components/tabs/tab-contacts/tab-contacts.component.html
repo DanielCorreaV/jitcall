@@ -1,5 +1,4 @@
 <h1>CONTACTS</h1>
 @for (contact of Contacts; track contact.id) {
-    <app-contact-item [contact]="contact"></app-contact-item>
+<app-contact-item [contact]="contact" (callFrame)="openFrame($event)"></app-contact-item>
 }
-

@@ -12,8 +12,9 @@ export class AppComponent {
     this.fcm.onNotificationReceived().subscribe(notification => {
       if (notification) {
         console.log('Notificación en foreground:', notification);
-        // podrías mostrar un modal, toast, etc.
+        //aqui la logixa de la notificacion
       }
     });
+    
   }
 }

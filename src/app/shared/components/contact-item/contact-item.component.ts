@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CallService } from 'src/app/core/services/call.service';
 import { FcmService } from 'src/app/core/services/fcm.service';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
@@ -12,25 +13,29 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 export class ContactItemComponent  implements OnInit {
 
   @Input() contact: any;
+  @Output() callFrame = new EventEmitter<string>();
+  callID = '';
 
   constructor(
     private fcmService: FcmService,
     private notificationService: NotificationService,
-    private fbSvc: FirebaseService
+    private fbSvc: FirebaseService,
+    private jitsiCall: CallService
   ) { }
 
   ngOnInit() {
-    console.log(this.contact)
   }
 
   async call(){
 
     const uid = await this.fbSvc.getCurrentUid();
+    this.callID = this.jitsiCall.startCall()
 
     if(uid){
+      this.openFrame();
       const fcmToken = this.fcmService.getToken(); 
       const userId = this.contact.userId;
-      const meetingId = '(no jitsi meeting id yet)';
+      const meetingId = this.callID;
       const contactName = this.contact.name;
       const userFrom = uid;
 
@@ -48,6 +53,10 @@ export class ContactItemComponent  implements OnInit {
       }
     }
     
+  }
+
+  openFrame() {
+    this.callFrame.emit(this.callID);
   }
 
 
