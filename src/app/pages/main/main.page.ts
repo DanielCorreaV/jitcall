@@ -16,7 +16,7 @@ import { Contact } from 'src/app/models/contact.model';
 export class MainPage implements OnInit {
   selectedTab = 'contacts';
   user: any;
-  Contacts: any[] = [];
+  Contacts: Contact[] = [];
   callID: any = null;
 
   constructor(

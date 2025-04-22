@@ -17,15 +17,23 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const defaultToken = localStorage.getItem('access_token');
     const refreshToken = localStorage.getItem('refresh_token');
-    const ravishingToken = this.getRavishingToken();
-
+    let ravishingToken = localStorage.getItem('ravishing_token');
     const url = req.url;
 
-    const isExternal = url.includes('https://ravishing-courtesy-production.up.railway.app/');
+    const isExternal = url.includes('https://ravishing-courtesy-production.up.railway.app/notifications');
+
+    if(isExternal){
+      if(!ravishingToken){
+        this.notify.setToken();
+      }
+        
+        ravishingToken = localStorage.getItem('ravishing_token');
+    }
 
     const tokenToUse = isExternal ? ravishingToken : defaultToken;
 
     if (tokenToUse) {
+      console.log("token: ", tokenToUse);
       const authReq = req.clone({
         setHeaders: {
           Authorization: `Bearer ${tokenToUse}`
@@ -48,11 +56,5 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 
-
-  async getRavishingToken(){
-
-    const token = await this.notify.getToken();
-    return token;
-  }
 
 }

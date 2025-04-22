@@ -9,6 +9,7 @@ export class NotificationService {
   constructor(private http: HttpClient) {}
 
   sendNotification(token: string, userId: string, meetingId: string, contactName: string, userFrom: string): Observable<any> {
+    
     const payload = {
       token: token,
       notification: {
@@ -27,6 +28,8 @@ export class NotificationService {
       },
     };
 
+    console.log("payload: ", payload);
+
     return this.http.post(
       'https://ravishing-courtesy-production.up.railway.app/notifications',
       payload,
@@ -38,10 +41,10 @@ export class NotificationService {
     );
   }
 
-  async getToken(): Promise<string | null> {
+  async setToken() {
     const body = { 
-      email: 'daniel.correavega@unicolombo.edu.co',
-      password: 'daniel3d'
+      email: '', //colocar credenciales
+      password: ''
     };
   
     try {
@@ -49,16 +52,14 @@ export class NotificationService {
         this.http.post<any>('https://ravishing-courtesy-production.up.railway.app/user/login', body)
       );
   
-      const token = res?.data?.access_token;
+      let token = res?.data?.access_token;
       if (token) {
+        token = token.replace("Bearer ", "");
         localStorage.setItem('ravishing_token', token);
-        return token;
       }
   
-      return null;
     } catch (error) {
       console.error('Error al obtener el token:', error);
-      return null;
     }
   }
 
