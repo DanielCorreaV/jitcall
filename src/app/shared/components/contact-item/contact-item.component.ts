@@ -47,8 +47,8 @@ export class ContactItemComponent  implements OnInit {
       .then((res:any)=>{
         alert("return: "+ JSON.stringify(res.value));
       }
-
     )
+    await this.handleStartCall();
 
 /*      if (fcmToken) {
         this.notificationService
@@ -71,6 +71,26 @@ export class ContactItemComponent  implements OnInit {
   openFrame() {
     this.callFrame.emit(this.callID);
   }
+
+  async handleStartCall() {
+    try {
+      const result = await JitsiPlugin.startCall();
+      console.log('Llamada iniciada en sala:', result.room);
+      // Puedes guardar el nombre de la sala, compartirlo o mostrarlo en pantalla
+    } catch (error) {
+      console.error('Error al iniciar la llamada:', error);
+    }
+  }
+
+  async handleJoinCall(roomName: string) {
+    try {
+      await JitsiPlugin.joinCall({ room: roomName });
+      console.log('Unido a la sala:', roomName);
+    } catch (error) {
+      console.error('Error al unirse a la llamada:', error);
+    }
+  }
+  
 
 
 }
