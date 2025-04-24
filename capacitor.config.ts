@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.jitcall.app',
+  appId: 'com.jitcall',
   appName: 'jitcall',
   webDir: 'www'
 };

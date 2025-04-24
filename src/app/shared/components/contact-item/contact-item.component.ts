@@ -4,6 +4,7 @@ import { FcmService } from 'src/app/core/services/fcm.service';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { JitsiPlugin } from 'jitsi-plugin/src';
 
 @Component({
   selector: 'app-contact-item',
@@ -42,8 +43,14 @@ export class ContactItemComponent  implements OnInit {
       const contactName = this.contact.name;
       const userFrom = uid;
 
-      console.log(fcmToken);
-      if (fcmToken) {
+      await JitsiPlugin.testPluginMethod({msg: "enviando..."})
+      .then((res:any)=>{
+        alert("return: "+ JSON.stringify(res.value));
+      }
+
+    )
+
+/*      if (fcmToken) {
         this.notificationService
           .sendNotification(fcmToken, userId, meetingId, contactName, userFrom)
           .subscribe({
@@ -56,7 +63,7 @@ export class ContactItemComponent  implements OnInit {
           });
       }else{
         console.log("no hay fcm")
-      }
+      }*/
     }
     
   }

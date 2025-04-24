@@ -1,5 +1,8 @@
 include ':app'
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+include ':jitsi-plugin'
+project(':jitsi-plugin').projectDir = new File('C:/laragon/www/jitcall/jitsi-plugin/android')
+
 
 apply from: 'capacitor.settings.gradle'
