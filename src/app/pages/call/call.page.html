@@ -1,0 +1,16 @@
+<ion-content class="call-page">
+  <div class="incoming-call-box">
+    <img src="assets/icon/placeholder.png" alt="Foto del contacto" class="contact-avatar" />
+    <h2>{{ name }}</h2>
+    <p>te está llamando...</p>
+
+    <div class="call-actions">
+      <ion-button color="danger" shape="round" (click)="rejectCall()" class="call-button">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button color="success" shape="round" (click)="joinCall()" class="call-button">
+        <ion-icon name="call" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

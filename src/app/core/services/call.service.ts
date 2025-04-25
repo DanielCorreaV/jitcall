@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class CallService {
   constructor() {}
 
-  startCall() {
+  startCall(p0: { meetingId: string; userName: string; }) {
     const meetingId = uuidv4(); // UUID
     console.log("id de la llamada: ", meetingId);
     return meetingId;

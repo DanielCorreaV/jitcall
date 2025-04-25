@@ -23,9 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const isExternal = url.includes('https://ravishing-courtesy-production.up.railway.app/notifications');
 
     if(isExternal){
-      if(!ravishingToken){
         this.notify.setToken();
-      }
         
         ravishingToken = localStorage.getItem('ravishing_token');
     }

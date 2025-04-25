@@ -17,7 +17,6 @@ export class MainPage implements OnInit {
   selectedTab = 'contacts';
   user: any;
   Contacts: Contact[] = [];
-  callID: any = null;
 
   constructor(
     private usr: UserService,
@@ -59,12 +58,5 @@ export class MainPage implements OnInit {
     this.selectedTab = tab;
   }
 
-  setcallID($event: string){
-    this.callID= $event;
-  }
-
-  closeframe(){
-    this.callID= null;
-  }
 }
 

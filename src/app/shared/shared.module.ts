@@ -8,7 +8,6 @@ import { TabProfileComponent } from './components/tabs/tab-profile/tab-profile.c
 import { ReactiveFormsModule } from '@angular/forms';
 import { TabNewContactComponent } from './components/tabs/tab-new-contact/tab-new-contact.component';
 import { RouterLink } from '@angular/router';
-import { CallComponent } from './components/call/call.component';
 
 const components=[
   ContactItemComponent,
@@ -16,8 +15,7 @@ const components=[
   TabHomeComponent,
   TabProfileComponent,
   TabContactsComponent,
-  TabNewContactComponent,
-  CallComponent
+  TabNewContactComponent
 ];
 
 @NgModule({

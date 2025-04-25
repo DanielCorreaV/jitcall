@@ -12,7 +12,6 @@ import { Contact } from 'src/app/models/contact.model';
 export class TabContactsComponent  implements OnInit {
 
   @Input() Contacts: any[]=[];
-  @Output() callID = new EventEmitter<string>();
 
 
   constructor(private usr: UserService, private fbSvc: FirebaseService) { }
@@ -21,9 +20,7 @@ export class TabContactsComponent  implements OnInit {
    
   }
 
-  openFrame($event: string) {
-    this.callID.emit($event);
-  }
+
 
 
 }

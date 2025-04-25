@@ -1,0 +1,76 @@
+ion-content.call-page {
+    --background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+    color: white;
+  
+    .incoming-call-box {
+      text-align: center;
+      padding: 2rem;
+  
+      .contact-avatar {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        border: 4px solid white;
+        margin-bottom: 2rem;
+      }
+  
+      h2 {
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      p {
+        font-size: 1.3rem;
+        color: #e0e0e0;
+        margin-bottom: 2.5rem;
+      }
+  
+      .call-actions {
+        display: flex;
+        justify-content: center;
+        gap: 2.5rem;
+  
+        .call-button {
+          width: 65px;
+          height: 65px;
+          border-radius: 50%;
+          font-size: 1.7rem;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+          --padding-start: 0;
+          --padding-end: 0;
+        }
+      }
+    }
+  }
+
+  .contact-avatar {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-bottom: 2rem;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  

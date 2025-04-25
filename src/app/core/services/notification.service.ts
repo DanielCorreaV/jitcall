@@ -28,7 +28,7 @@ export class NotificationService {
       },
     };
 
-    console.log("payload: ", payload);
+    console.log("payload: "+ payload);
 
     return this.http.post(
       'https://ravishing-courtesy-production.up.railway.app/notifications',
@@ -43,8 +43,8 @@ export class NotificationService {
 
   async setToken() {
     const body = { 
-      email: '', //colocar credenciales
-      password: ''
+      email: 'daniel.correavega@unicolombo.edu.co', //colocar credenciales
+      password: 'daniel3d'
     };
   
     try {

@@ -15,8 +15,6 @@ import { JitsiPlugin } from 'jitsi-plugin/src';
 export class ContactItemComponent  implements OnInit {
 
   @Input() contact: any;
-  @Output() callFrame = new EventEmitter<string>();
-  callID = '';
 
   constructor(
     private fcmService: FcmService,
@@ -30,68 +28,43 @@ export class ContactItemComponent  implements OnInit {
     console.log(this.contact);
   }
 
-  async call(){
-
+  async call() {
     const uid = await this.fbSvc.getCurrentUid();
-    this.callID = this.jitsiCall.startCall()
-
-    if(uid){
-      //this.openFrame();
+  
+    if (uid) {
       const fcmToken = await this.usr.getTokenByPhone(this.contact.phone);
       const userId = this.contact.id;
-      const meetingId = this.callID;
       const contactName = this.contact.name;
       const userFrom = uid;
-
-      await JitsiPlugin.testPluginMethod({msg: "enviando..."})
-      .then((res:any)=>{
-        alert("return: "+ JSON.stringify(res.value));
-      }
-    )
-    await this.handleStartCall();
-
-/*      if (fcmToken) {
+  
+      let room = (await JitsiPlugin.createRoom()).meetingId;
+  
+      if (fcmToken && room) {
         this.notificationService
-          .sendNotification(fcmToken, userId, meetingId, contactName, userFrom)
+          .sendNotification(fcmToken, userId, room, contactName, userFrom)
           .subscribe({
-            next: (response) => {
+            next: async (response) => {
               console.log('Notificación enviada con éxito:', response);
+              try {
+                await JitsiPlugin.joinCall({
+                  meetingId: room,
+                  userName: contactName // o tu propio nombre si es quien inicia
+                });
+                console.log('Unido a la sala:', room);
+              } catch (error) {
+                console.error('Error al unirse a la sala:', error);
+              }
             },
             error: (err) => {
               console.error('Error al enviar la notificación:', err);
             },
           });
-      }else{
-        console.log("no hay fcm")
-      }*/
-    }
-    
-  }
-
-  openFrame() {
-    this.callFrame.emit(this.callID);
-  }
-
-  async handleStartCall() {
-    try {
-      const result = await JitsiPlugin.startCall();
-      console.log('Llamada iniciada en sala:', result.room);
-      // Puedes guardar el nombre de la sala, compartirlo o mostrarlo en pantalla
-    } catch (error) {
-      console.error('Error al iniciar la llamada:', error);
-    }
-  }
-
-  async handleJoinCall(roomName: string) {
-    try {
-      await JitsiPlugin.joinCall({ room: roomName });
-      console.log('Unido a la sala:', roomName);
-    } catch (error) {
-      console.error('Error al unirse a la llamada:', error);
+      } else {
+        console.log("No hay token FCM o room");
+      }
     }
   }
   
-
 
 }
 
