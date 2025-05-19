@@ -30,6 +30,10 @@ export class MainPage implements OnInit {
   }
 
   async ViewonEnter() {
+    this.getContacts();
+  }
+
+  async getContacts(){
     const uid = await this.fbSvc.getCurrentUid();
 
     if (uid) {
@@ -41,6 +45,7 @@ export class MainPage implements OnInit {
     }
 
     this.fbSvc.getCurrentUserData().subscribe(res => {
+      console.log(res);
       this.user = res;
     });
   }
@@ -56,6 +61,13 @@ export class MainPage implements OnInit {
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+  }
+
+  handleRefresh(event: CustomEvent) {
+    setTimeout(() => {
+      this.getContacts();
+      (event.target as HTMLIonRefresherElement).complete();
+    }, 2000);
   }
 
 }

@@ -1,83 +1,135 @@
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  background-color: var(--ion-color-light);
-}
+  /* Estilos generales - Modo Oscuro WhatsApp */
+  ion-header {
+    --background: #111b21;
+    border-bottom: 1px solid #2a3942;
+  }
 
-.profile-header {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-  margin-bottom: 32px;
-}
+  ion-toolbar {
+    --background: #111b21;
+    --color: #e9edef;
+    --border-color: #2a3942;
+    min-height: 56px;
+  }
 
-.profile-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--ion-color-primary);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
+  ion-back-button {
+    --color: #e9edef;
+    --icon-font-size: 22px;
+  }
 
-.profile-image:hover {
-  transform: scale(1.05);
-}
+  ion-title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #e9edef;
+  }
 
-.profile-form {
-  width: 100%;
-  max-width: 400px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-}
+  .profile-container {
+    --background: #111b21;
+    --padding-top: 0;
+    color: #e9edef;
+  }
 
-.form-group {
-  margin-bottom: 24px;
-}
+  /* Header de perfil */
+  .profile-header {
+    padding: 24px 0;
+    text-align: center;
+    margin-bottom: 1px;
+    border-bottom: 1px solid #2a3942;
+  }
 
-ion-item {
-  --background: #f5f5f5;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  --padding-start: 12px;
-  --inner-padding-end: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+  .profile-header img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #2a3942;
+    background-color: #2a3942;
+  }
 
-ion-input::part(native) {
-  font-size: 15px;
-}
+  .profile-info{
+    color: white;
+    padding: 0px;
+    margin: 0px;
+    font-family: monospace;
+  }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 20px 0 12px;
-}
+  /* Formulario */
+  .profile-form {
+    background: transparent;
+    padding: 16px;
+  }
 
-.square-button {
-  --padding-start: 0;
-  --padding-end: 0;
-  --border-radius: 12px;
-  --background: #e0e0e0;
-  --color: #333;
-  width: 50px;
-  height: 50px;
-  min-width: 50px;
-  min-height: 50px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.2s;
-}
+  ion-item {
+    --background: #2a3942;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-end: 0;
+    --border-color: #1a1a1a;
+    --border-radius: 8px;
+    --highlight-height: 0;
+    margin-bottom: 16px;
+  }
 
-.square-button:hover {
-  --background: #d6d6d6;
-}
+  ion-input {
+    --background: transparent;
+    --color: #e9edef;
+    --placeholder-color: #8696a0;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+  }
 
-.square-button ion-icon {
-  font-size: 22px;
-}
+  ion-label {
+    color: #8696a0 !important;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  /* Botones de acción */
+  .action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #2a3942;
+  }
+
+  .square-button {
+    --border-radius: 8px;
+    --background: #2a3942;
+    --color: #8696a0;
+    --color-hover: #25D366;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+  }
+
+  .square-button:hover {
+    --color: #25D366;
+  }
+
+  .square-button ion-icon {
+    font-size: 22px;
+  }
+
+  /* Botón de guardar */
+  ion-button[color="primary"] {
+    --background: #25D366;
+    --background-activated: #1faa56;
+    --background-hover: #20ba5d;
+    --color: #111b21;
+    --border-radius: 8px;
+    height: 48px;
+    font-weight: 500;
+    margin-top: 24px;
+    text-transform: capitalize;
+  }
+
+  /* Efectos de hover y estados */
+  ion-item:hover, .square-button:hover {
+    transition: all 0.2s ease;
+  }
+
+  /* Ajustes para modo oscuro */
+  .form-group {
+    background: transparent;
+    padding: 8px 0;
+  }

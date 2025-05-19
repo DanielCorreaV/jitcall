@@ -1,54 +1,72 @@
-/* Puedes colocar esto en el archivo .scss o .css correspondiente a tu componente */
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 20px;
-  background: #f4f4f4;
-  min-height: 100%;
-}
+  h1 {
+    color: #e9edef;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    padding: 16px 0;
+    margin: 0;
+    border-bottom: 1px solid #e9edef;
+  }
 
-.register-contact {
-  background: #fff;
-  padding: 30px 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
+  .nc-container {
+    --background: none;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+  }
 
-h1 {
-  text-align: center;
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 24px;
-  color: #2c3e50;
-}
+  .register-contact {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
 
-.login-item {
-  margin-bottom: 20px;
-  --background: #fff;
-  --border-radius: 12px;
-  --padding-start: 12px;
-  --padding-end: 12px;
-  --highlight-color-focused: #3880ff;
-}
+  .nc-item {
+    --background: #ffffff;
+    --border-radius: 8px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-bottom: 16px;
+    --border-color: #e9edef;
+    --highlight-height: 0;
+    --border-width: 1px;
+    --border-style: solid;
+  }
 
-.login-button {
-  margin-top: 20px;
-  --background: #3880ff;
-  --color: #fff;
-  --border-radius: 12px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(56, 128, 255, 0.3);
-  transition: transform 0.2s ease;
-}
+  ion-input {
+    --color: #111b21;
+    --placeholder-color: #667781;
+    --placeholder-opacity: 1;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+  }
 
-.login-button:disabled {
-  opacity: 0.6;
-  box-shadow: none;
-}
+  ion-label {
+    color: #008069 !important;
+    font-weight: 500;
+    margin-bottom: 4px;
+    transform-origin: top left;
+  }
 
-.login-button:hover:not(:disabled) {
-  transform: scale(1.03);
-}
+  .login-button {
+    --background: #008069;
+    --background-activated: #006e5b;
+    --border-radius: 8px;
+    --box-shadow: none;
+    height: 48px;
+    font-weight: 500;
+    text-transform: capitalize;
+    margin-top: 24px;
+    --color: #ffffff;
+  }
+
+  .login-button[disabled] {
+    --background: #a0b1b5;
+    opacity: 1;
+  }
+
+  /* Animación para coincidir con el animate__fadeInDown */
+  .animate__animated.animate__fadeInDown {
+    animation-duration: 0.3s;
+  }

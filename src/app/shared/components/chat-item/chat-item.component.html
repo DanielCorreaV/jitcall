@@ -1,0 +1,14 @@
+<div class="chat-item">
+  <img src="assets/icon/placeholder.png" alt="Avatar" class="chat-avatar" />
+
+  <div class="chat-content">
+    <div class="chat-name">
+      <span>{{ contact.name }} {{ contact.surname }}</span>
+      <span class="chat-time">{{ contact.time || '10:20 a. m.' }}</span>
+    </div>
+
+    <div class="chat-message">
+      <span class="message-preview">{{ contact.lastMessage || 'ok' }}</span>
+    </div>
+  </div>
+</div>

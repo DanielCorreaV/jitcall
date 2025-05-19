@@ -4,7 +4,7 @@ import { FcmService } from 'src/app/core/services/fcm.service';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { JitsiPlugin } from 'jitsi-plugin/src';
+//import { JitsiPlugin } from 'jitsi-plugin/src';
 
 @Component({
   selector: 'app-contact-item',
@@ -37,7 +37,7 @@ export class ContactItemComponent  implements OnInit {
       const contactName = this.contact.name;
       const userFrom = uid;
   
-      let room = (await JitsiPlugin.createRoom()).meetingId;
+      let room =''; //(await JitsiPlugin.createRoom()).meetingId;
   
       if (fcmToken && room) {
         this.notificationService
@@ -46,10 +46,10 @@ export class ContactItemComponent  implements OnInit {
             next: async (response) => {
               console.log('Notificación enviada con éxito:', response);
               try {
-                await JitsiPlugin.joinCall({
-                  meetingId: room,
-                  userName: contactName // o tu propio nombre si es quien inicia
-                });
+                // await JitsiPlugin.joinCall({
+                //   meetingId: room,
+                //   userName: contactName // o tu propio nombre si es quien inicia
+                // });
                 console.log('Unido a la sala:', room);
               } catch (error) {
                 console.error('Error al unirse a la sala:', error);

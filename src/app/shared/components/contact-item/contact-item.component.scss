@@ -1,41 +1,45 @@
 .contact-row {
-    align-items: center; 
-    padding: 8px;
-    border-bottom: 1px solid var(--ion-color-light); 
-  }
-  
-  .contact-info {
-     white-space: nowrap; 
-     overflow: hidden; 
-     text-overflow: ellipsis; 
-     flex-grow: 1; 
-    margin-left: 8px;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid var(--ion-color-light);
+}
 
-  }
-  
-  .options-card {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 150px;
-    z-index: 10;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  }
-  
-  .contact-row {
-    position: relative;
-  }
-  .contact-number{
-    color: gray;
-  }
+.contact-info {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  margin-left: 8px;
+  color: var(--ion-color-light);
 
-  .call-button{
-    font-size: 20px;
-    color: red
-  }
+}
 
-  img{
-    width: 100px;
-    height: 100px;
-    margin: 0;
-  }
+.options-card {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 150px;
+  z-index: 10;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.contact-row {
+  position: relative;
+}
+
+.contact-number {
+  color: gray;
+}
+
+.call-button {
+  font-size: 20px;
+  color: red
+}
+
+img {
+  width: 80px;
+  height: 80px;
+  margin: 0;
+  border-radius: 50%;
+  object-fit: cover;
+}

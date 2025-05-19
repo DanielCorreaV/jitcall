@@ -1,18 +1,11 @@
 <ion-row class="contact-row">
 
   <ion-col size="auto">
-    <img src="assets/icon/placeholder.png">
+    <img src="{{contact.image || 'assets/icon/placeholder.png'}}" alt="Contact Image" class="contact-image">
   </ion-col>
 
   <ion-col class="contact-info" routerLink="/view/{{contact.id}}">
     <span>{{contact.name +" "+ contact.surname}}</span>
     <p class="contact-number">+57 {{contact.phone}}</p>
-  </ion-col>
-
-
-  <ion-col size="auto">
-    <ion-button fill="clear" (click)="call()" class="call-button">
-      <ion-icon name="videocam"></ion-icon>
-    </ion-button>
   </ion-col>
 </ion-row>

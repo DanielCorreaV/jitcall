@@ -1,22 +1,25 @@
-<h1>New Contact</h1> 
-<ion-content class="ion-padding login-container animate__animated animate__fadeInDown">
+<h1>New Contact</h1>
+<ion-content class="ion-padding nc-container animate__animated animate__fadeInDown">
   <form [formGroup]="newContactForm" (ngSubmit)="onSubmit()">
-    
+
     <div class="register-contact">
       <div style="margin-bottom: 30px;">
-        <ion-item class="login-item">
-          <ion-input label="Name" labelPlacement="floating" formControlName="name" type="text" placeholder="Jane Doe"></ion-input>
+        <ion-item class="nc-item">
+          <ion-input label="Name" labelPlacement="floating" formControlName="name" type="text"
+            placeholder="Jane Doe"></ion-input>
         </ion-item>
 
-        <ion-item class="login-item">
-          <ion-input label="Surname" labelPlacement="floating" formControlName="surname" type="text" placeholder="Jane Doe"></ion-input>
+        <ion-item class="nc-item">
+          <ion-input label="Surname" labelPlacement="floating" formControlName="surname" type="text"
+            placeholder="Jane Doe"></ion-input>
         </ion-item>
 
-        <ion-item class="login-item">
-          <ion-input label="Phone" labelPlacement="floating" formControlName="phone" type="tel" placeholder="(+57) 123 4567 890"></ion-input>
+        <ion-item class="nc-item">
+          <ion-input label="Phone" labelPlacement="floating" formControlName="phone" type="tel"
+            placeholder="123 4567 890"></ion-input>
         </ion-item>
       </div>
-      
+
 
       <ion-button expand="full" type="submit" [disabled]="newContactForm.invalid" class="login-button">
         Save New Contact

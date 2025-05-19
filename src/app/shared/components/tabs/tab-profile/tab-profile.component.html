@@ -1,20 +1,30 @@
 <ion-title>My Profile</ion-title>
+<ion-row>
+  <ion-col class="profile-col">
+    <div class="profile-image">
+      @if(isEditing){
+      <div class="edit" (click)="onFileSelected()">
+        <ion-icon name="image-outline"></ion-icon>
+      </div>
+      }
 
-<img src="assets/icon/placeholder.png" alt="Perfil" class="profile-image">
+      <img [src]="previewImage || 'assets/icon/placeholder.png'" alt="Perfil">
+
+    </div>
+  </ion-col>
+</ion-row>
 
 <ion-content>
   <form [formGroup]="profileForm">
     <div style="margin-bottom: 30px;">
       <ion-item>
-        <ion-input label="Name" formControlName="name" label-placement="stacked" placeholder="Jane" formControlName="name"></ion-input>
+        <ion-input label="Name" formControlName="name" label-placement="stacked" placeholder="Jane"
+          formControlName="name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Surname" formControlName="surname" label-placement="stacked" placeholder="Doe" formControlName="surname"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-input label="Phone" formControlName="phone" label-placement="stacked" placeholder="(+57) 123 4567 890)" formControlName="phone"></ion-input>
+        <ion-input label="Surname" formControlName="surname" label-placement="stacked" placeholder="Doe"
+          formControlName="surname"></ion-input>
       </ion-item>
     </div>
     <ion-button expand="full" color="primary" (click)="toggleEdit()" *ngIf="!isEditing">
@@ -28,6 +38,7 @@
   <ion-button expand="full" color="danger" (click)="logOut()" *ngIf="!isEditing">
     LogOut
   </ion-button>
+  <ion-button expand="full" color="danger" (click)="cancelEdit()" *ngIf="isEditing">
+    Cancel
+  </ion-button>
 </ion-content>
-
-

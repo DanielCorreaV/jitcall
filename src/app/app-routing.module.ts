@@ -30,10 +30,17 @@ const routes: Routes = [
     path: 'view/:id',
     loadChildren: () => import('./pages/view/view.module').then( m => m.ViewPageModule),
     canActivate: [AuthGuard]
-  },  {
+  },
+  {
     path: 'call',
     loadChildren: () => import('./pages/call/call.module').then( m => m.CallPageModule)
   },
+  {
+    path: 'chat/:chatId',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
+
+  
 
 ];
 
