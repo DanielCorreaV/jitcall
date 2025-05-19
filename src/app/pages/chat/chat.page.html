@@ -1,13 +1,56 @@
-<ion-header [translucent]="true">
+<ion-header class="chat-header" [translucent]="true">
   <ion-toolbar>
-    <ion-title>chat</ion-title>
+    <div class="header-left">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/main" text=""></ion-back-button>
+      </ion-buttons>
+
+      <div class="contact-info">
+        <img [src]="contact?.image||'assets/icon/placeholder.png'" alt="Avatar" class="contact-avatar">
+        <div class="contact-name">{{contact.name+ " "+ contact.surname}}</div> 
+      </div>
+    </div>
+
+    <div class="header-right" slot="end">
+      <ion-icon name="call" class="header-icon"></ion-icon>
+      <ion-icon name="ellipsis-vertical" class="header-icon"></ion-icon>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">chat</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="chat-container">
+    <div class="message-group">
+      @if(messages){
+        @for(message of messages; track message.date){
+          @if(message.from == uid){
+            <app-message [message]="message" class="message sent"></app-message>
+          }@else{
+            <app-message [message]="message" class="message recived"></app-message>
+          }
+        }
+      }   
+      
+    </div>
+  </div>
+
 </ion-content>
+
+<ion-footer class="message-bar">
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-input
+        type="text"
+        placeholder="Escribe un mensaje..."
+        [(ngModel)]="messageText"
+        class="message-input"
+      ></ion-input>
+      <ion-button fill="clear" slot="end" (click)="sendFile()">
+        <ion-icon name="attach-outline" slot="icon-only" style="font-size: 20px;"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" slot="end" (click)="sendMessage()">
+        <ion-icon name="send" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

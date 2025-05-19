@@ -3,6 +3,7 @@ import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, 
 import { combineLatest, from, map, Observable, of, switchMap } from 'rxjs';
 import { Contact } from 'src/app/models/contact.model';
 import { SupabaseService } from './supabase.service';
+import { message } from 'src/app/models/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +43,32 @@ export class ChatService {
 
   }
 
+  getChatMessages(cid:string): Observable<any[]> {
+    const chatRef = collection(this.firestore, `chats/${cid}/messages`);
+    return collectionData(chatRef, { idField: 'id' }) as Observable<any[]>;
+  }
+
+
   async checkIfDocExists(firestore: Firestore, collectionPath: string, docId: string): Promise<boolean> {
     const docRef = doc(firestore, collectionPath, docId);
     const docSnap = await getDoc(docRef);
-    return docSnap.exists(); // ✅ true si existe, false si no
+    return docSnap.exists(); 
+  }
+
+  async sendMessage(chatID: string, message: message){
+    if(chatID){
+      const chatref = doc(this.firestore, `chats/${chatID}/messages/MSJ-${Date.now()}`);
+      return setDoc(chatref,message).then(()=>{
+        this.updateLastMessage(chatID,message);
+      });
+    }
+  }
+
+  updateLastMessage(chatID: string, message: message){
+    const chatref = doc(this.firestore, `chats/${chatID}`);
+    return updateDoc(chatref,{
+      lastMsj: message.content
+    })
   }
 
 

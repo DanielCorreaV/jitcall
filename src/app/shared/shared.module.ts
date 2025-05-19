@@ -8,17 +8,21 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TabNewContactComponent } from './components/tabs/tab-new-contact/tab-new-contact.component';
 import { RouterLink } from '@angular/router';
 import { TabChatsComponent } from './components/tabs/tab-chats/tab-chats.component';
+import { ChatItemComponent } from './components/chat-item/chat-item.component';
+import { MessageComponent } from './components/message/message.component';
 
 const components=[
   ContactItemComponent,
+  ChatItemComponent,
+  MessageComponent,
   TabContactsComponent,
   TabProfileComponent,
   TabContactsComponent,
   TabNewContactComponent,
-  TabChatsComponent
+  TabChatsComponent,
 ];
 
-@NgModule({
+@NgModule({ 
   declarations: [components],
   imports: [
     CommonModule,

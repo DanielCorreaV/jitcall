@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Contact } from 'src/app/models/contact.model';
-import { JitsiPlugin } from 'jitsi-plugin/src';
+//import { JitsiPlugin } from 'jitsi-plugin/src';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ChatService } from 'src/app/core/services/chat.service';
 
@@ -105,14 +105,18 @@ export class ViewPage implements OnInit {
 
       
       this.chat.getChatID(this.contactId, this.uid).then((res)=>{      
-        this.router.navigate([`chat/${res}`]);     
+        this.router.navigate([`chat/${res}`],{
+          queryParams:{
+            contactID: this.contactId,
+          }
+        });     
       })
       
     }
   }
   async goToCall() {
   
-    if (this.uid) {
+   /* if (this.uid) {
       const fcmToken = await this.usr.getTokenByPhone(this.contact.phone);
       const userId = this.contactId;
       const contactName = this.contact.name;
@@ -143,7 +147,7 @@ export class ViewPage implements OnInit {
       } else {
         console.log("No hay token FCM o room");
       }
-    }
+    }*/
       
   }
 

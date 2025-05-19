@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FilePicker, PickFilesResult } from '@capawesome/capacitor-file-picker';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-
+ 
 @Injectable({
   providedIn: 'root'
 })

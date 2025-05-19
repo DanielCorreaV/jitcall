@@ -1,0 +1,22 @@
+@if (message.type == "text") {
+  <div>
+    {{message.content}}
+    <span class="time">{{message.date | date:'shortTime'}}</span>
+  </div>
+}
+
+@else if(message.type == "image") {
+  <div>
+    <img src="{{message.content}}" alt="image">
+    <span class="time">{{message.date | date:'shortTime'}}</span>
+  </div>
+}
+
+@else {
+  <div>
+    Error
+    <span class="time">{{message.date | date:'shortTime'}}</span>
+  </div>
+}
+
+
