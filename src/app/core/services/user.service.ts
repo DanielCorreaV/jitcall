@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
-import { combineLatest, from, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Contact } from 'src/app/models/contact.model';
 import { SupabaseService } from './supabase.service';
 
@@ -23,11 +23,11 @@ export class UserService {
     });
   }
 
-  async editUser(user: Contact, uid: string): Promise<void> {
+  async editUser(user: Contact, uid: string, editingImage:boolean): Promise<void> {
     console.log(user, " ", uid);
     const userRef = doc(this.firestore, `users/${uid}`);
     
-    if (user.image) {
+    if (user.image && editingImage) {
       const imageUrl = await this.supabaseService.uploadAvatar(user.image, uid);
       if (!imageUrl) {
         throw new Error('Failed to upload image');
@@ -97,10 +97,10 @@ export class UserService {
 
   async addContact(contact: Contact, uid: string): Promise<void> {
     try {
-      const isAllowed = await this.isPhoneRegistered(contact.phone);
-      if (isAllowed) {
-        const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
-        await addDoc(contactsRef, {
+      const user = await this.getUserByPhone(contact.phone);
+      if (user) {
+        const contactsRef = doc(this.firestore, `users/${uid}/contacts/${user.id}`);
+        await setDoc(contactsRef, {
           name: contact.name,
           surname: contact.surname,
           phone: contact.phone,
@@ -115,13 +115,17 @@ export class UserService {
   }
   
 
-  editContact(contact: Contact, uid: string, cid: String): Promise<void> {
-    const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
-    return updateDoc(contactRef, {
-      name: contact.name,
-      surname: contact.surname,
-    });
-  }
+
+editContact(contact: Contact, uid: string, cid: string): Promise<void> {
+  const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
+  console.log('ID del contacto a actualizar:', cid);
+
+  return updateDoc(contactRef, {
+    name: contact.name,
+    surname: contact.surname
+  });
+}
+
   
 getContacts(uid: string): Observable<any[]> {
   const contactsRef = collection(this.firestore, `users/${uid}/contacts`);
@@ -151,25 +155,35 @@ getContacts(uid: string): Observable<any[]> {
   );
 }
 
-  
 
-  getContactById(uid: string, cid: string): Promise<Contact> {
-    const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
+getContactById(uid: string, cid: string): Observable<Contact> {
+  const contactRef = doc(this.firestore, `users/${uid}/contacts/${cid}`);
 
-    return getDoc(contactRef).then(async docSnap => {
+  // convertimos la Promise getDoc en Observable con 'from'
+  return from(getDoc(contactRef)).pipe(
+    switchMap(docSnap => {
       if (!docSnap.exists()) {
-        throw new Error('The user does not exist.');
+        return throwError(() => new Error('The user does not exist.'));
       }
 
-      const userAsociated = await this.getUserByPhone(docSnap.data()['phone']);
+      const contactData = docSnap.data()!;
 
-      return {
-        id: docSnap.id,
-        image: userAsociated.image,
-        ...docSnap.data()
-      }as Contact;
-    });
-  }
+      // convertimos la llamada a getUserByPhone (que debe devolver Promise) a Observable
+      return from(this.getUserByPhone(contactData['phone'])).pipe(
+        map(userAsociated => ({
+          id: docSnap.id,
+          image: userAsociated?.image || null,
+          ...contactData
+        } as Contact))
+      );
+    }),
+    catchError(err => {
+      console.error('Error in getContactById$', err);
+      return throwError(() => err);
+    })
+  );
+}
+
 
   async isPhoneRegistered(phone: string): Promise<boolean> {
     const users = await this.getUsers();

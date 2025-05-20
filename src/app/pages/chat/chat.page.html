@@ -6,45 +6,43 @@
       </ion-buttons>
 
       <div class="contact-info">
-        <img [src]="contact?.image||'assets/icon/placeholder.png'" alt="Avatar" class="contact-avatar">
-        <div class="contact-name">{{contact.name+ " "+ contact.surname}}</div> 
+        <img [src]="contact.image||'assets/icon/placeholder.png'" alt="Avatar" class="contact-avatar">
+        <div class="contact-name">{{contact.name+ " "+ contact.surname}}</div>
       </div>
     </div>
 
     <div class="header-right" slot="end">
       <ion-icon name="call" class="header-icon"></ion-icon>
-      <ion-icon name="ellipsis-vertical" class="header-icon"></ion-icon>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="chat-container">
-    <div class="message-group">
-      @if(messages){
-        @for(message of messages; track message.date){
-          @if(message.from == uid){
-            <app-message [message]="message" class="message sent"></app-message>
-          }@else{
-            <app-message [message]="message" class="message recived"></app-message>
-          }
-        }
-      }   
-      
-    </div>
-  </div>
+    @if(messages){
+    @for(group of messages; track group.date){
+    <div class="date-separator">{{ group.date }}</div>
 
+    <div class="message-group">
+      @for(message of group.messages; track message.id){
+      @if(message.from == uid){
+      <app-message [message]="message" class="message sent"></app-message>
+      } @else {
+      <app-message [message]="message" class="message received"></app-message>
+      }
+      }
+    </div>
+    }
+    }
+  </div>
 </ion-content>
+
 
 <ion-footer class="message-bar">
   <ion-toolbar>
     <ion-item lines="none">
-      <ion-input
-        type="text"
-        placeholder="Escribe un mensaje..."
-        [(ngModel)]="messageText"
-        class="message-input"
-      ></ion-input>
+      <ion-input type="text" placeholder="Escribe un mensaje..." [(ngModel)]="messageText"
+        class="message-input"></ion-input>
       <ion-button fill="clear" slot="end" (click)="sendFile()">
         <ion-icon name="attach-outline" slot="icon-only" style="font-size: 20px;"></ion-icon>
       </ion-button>

@@ -6,7 +6,7 @@
     </ion-refresher>
   </div>
   <ng-container [ngSwitch]="selectedTab">
-    <app-tab-chats *ngSwitchCase="'chats'"></app-tab-chats>
+    <app-tab-chats [chats]="chats" *ngSwitchCase="'chats'"></app-tab-chats>
     <app-tab-new-contact *ngSwitchCase="'new-contact'"></app-tab-new-contact>
     <app-tab-contacts [Contacts]="Contacts" *ngSwitchCase="'contacts'"></app-tab-contacts>
     <app-tab-profile [user]="user" (islogginOut)="logOut()" *ngSwitchCase="'profile'"></app-tab-profile>

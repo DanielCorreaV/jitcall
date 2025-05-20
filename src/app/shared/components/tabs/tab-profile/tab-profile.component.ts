@@ -22,6 +22,7 @@ export class TabProfileComponent implements OnInit {
   @Output() islogginOut = new EventEmitter<boolean>();
   auxData: Contact | null = null;
   previewImage = '';
+  editingImage = false;
 
   constructor(
     private fb: FormBuilder,
@@ -87,7 +88,7 @@ export class TabProfileComponent implements OnInit {
     await loading.present();
 
     if (this.profileForm.valid) {
-      this.usr.editUser(this.profileForm.value, this.uid).then(async () => {
+      this.usr.editUser(this.profileForm.value, this.uid, this.editingImage).then(async () => {
         await loading.dismiss();
         this.auxData = this.profileForm.value;
 
@@ -99,8 +100,10 @@ export class TabProfileComponent implements OnInit {
         });
         toast.present();
         this.toggleEdit();
+        this.editingImage = false;
       }).catch(async err => {
         await loading.dismiss();
+        console.log(err);
 
         const toast = await this.toastCtrl.create({
           message: 'Something went wrong, try later',
@@ -132,6 +135,7 @@ export class TabProfileComponent implements OnInit {
       this.profileForm.patchValue({
         image: result.base64
       });
+      this.editingImage = true;
 
     }
   }
@@ -148,7 +152,7 @@ export class TabProfileComponent implements OnInit {
 
     // Restaurar el objeto user con una copia para evitar referencias compartidas
     this.user = { ...this.auxData };
-
+    this.editingImage = false;
     // Desactivar modo de edición y deshabilitar el formulario
     this.isEditing = false;
     this.profileForm.disable();

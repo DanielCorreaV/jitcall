@@ -39,8 +39,7 @@ export class ViewPage implements OnInit {
   ) {
     this.ContactForm = this.fb.group({
       name: ['', Validators.required],
-      surname: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]]
+      surname: ['', Validators.required]
     });
   }
 
@@ -50,14 +49,16 @@ export class ViewPage implements OnInit {
     this.contactId = this.route.snapshot.paramMap.get('id') || '';
 
     if (this.contactId && this.uid) {
-      const data = await this.usr.getContactById(this.uid, this.contactId);
-      if (data) {
-        this.contact = data;
-        this.auxData = data;
-        this.setContactData(this.contact);
-        console.log('Contact data:', this.contact);
-      }
+  this.usr.getContactById(this.uid, this.contactId).subscribe(data => {
+    if (data) {
+      this.contact = data;
+      this.auxData = data;
+      this.setContactData(this.contact);
+      console.log('Contact data:', this.contact);
     }
+  });
+}
+
   }
 
   setContactData(contact: Contact) {
@@ -85,6 +86,8 @@ export class ViewPage implements OnInit {
         console.error('Error updating contact:', error);
       });
       this.toggleEdit();
+    }else{
+      console.log("error");
     }
   }
 
@@ -101,17 +104,14 @@ export class ViewPage implements OnInit {
   }
 
   async goToChat() {
-    if (this.contactId && this.uid) {
-
-      
-      this.chat.getChatID(this.contactId, this.uid).then((res)=>{      
+    if (this.contact && this.uid && this.contact.id) {
+        this.chat.getChatID(this.uid, this.contact.id).then((res)=>{      
         this.router.navigate([`chat/${res}`],{
           queryParams:{
             contactID: this.contactId,
           }
         });     
       })
-      
     }
   }
   async goToCall() {

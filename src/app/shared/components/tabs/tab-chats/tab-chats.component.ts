@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { chat } from 'src/app/models/chat.model';
 
 @Component({
   selector: 'app-tab-chats',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class TabChatsComponent  implements OnInit {
+
+  @Input() chats: any=null;
 
   constructor() { }
 

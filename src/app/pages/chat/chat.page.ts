@@ -22,7 +22,7 @@ export class ChatPage implements OnInit {
     image: ""
   };
   uid:string |null = null;
-  messages: message[] | null = null;
+  messages: any;
   MsjType: string = "";
   messageText: any;
 
@@ -33,13 +33,14 @@ export class ChatPage implements OnInit {
   async ngOnInit() {
     this.uid= await this.firebase.getCurrentUid();
     this.chatID = this.route.snapshot.paramMap.get('chatId') || '';
-    this.chatService.getChatMessages(this.chatID).subscribe((data)=>{
+    this.chatService.getChatMessagesGrouped(this.chatID).subscribe((data)=>{
       this.messages = data;
     });
 
     this.route.queryParams.subscribe(params => {
       const contactId = params['contactID'];
-      this.user.getContactById(this.uid || "",contactId).then((data)=>{
+      console.log("contactID: ",contactId);
+      this.user.getContactById(this.uid || "",contactId).subscribe((data)=>{
         this.contact = data;
       })
     });

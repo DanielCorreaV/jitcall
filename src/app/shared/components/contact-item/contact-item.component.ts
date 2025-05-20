@@ -25,7 +25,7 @@ export class ContactItemComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.contact);
+    // console.log(this.contact);
   }
 
   async call() {

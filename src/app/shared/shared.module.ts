@@ -28,7 +28,8 @@ const components=[
     CommonModule,
     IonicModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
   exports: [components]
 })
