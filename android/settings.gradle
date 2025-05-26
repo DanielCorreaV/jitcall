@@ -3,6 +3,7 @@ include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 include ':jitsi-plugin'
 project(':jitsi-plugin').projectDir = new File('C:/laragon/www/jitcall/jitsi-plugin/android')
-
+include ':capacitor-community-video-recorder'
+project(':capacitor-community-video-recorder').projectDir = new File('../node_modules/@capacitor-community/video-recorder/android')
 
 apply from: 'capacitor.settings.gradle'

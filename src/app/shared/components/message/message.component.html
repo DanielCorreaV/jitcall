@@ -1,22 +1,39 @@
 @if (message.type == "text") {
-  <div>
-    {{message.content}}
-    <span class="time">{{message.date | date:'shortTime'}}</span>
-  </div>
+<div>
+  {{message.content}}
+  <span class="time">{{message.date | date:'shortTime'}}</span>
+</div>
 }
 
 @else if(message.type == "image") {
-  <div>
-    <img src="{{message.content}}" alt="image">
-    <span class="time">{{message.date | date:'shortTime'}}</span>
-  </div>
+<div>
+  <img src="{{message.content}}" alt="image">
+  <span class="time">{{message.date | date:'shortTime'}}</span>
+</div>
+}
+
+@else if(message.type == "audio") {
+<div>
+  <audio controls class="audio-message" preload="metadata">
+    <source [src]="message.content" type="audio/webm">
+  </audio>
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
+</div>
+}
+
+@else if(message.type == "video") {
+<div class="video-message">
+  <video controls preload="metadata">
+    <source [src]="message.content" type="video/webm">
+    Tu navegador no soporta el video.
+  </video>
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
+</div>
 }
 
 @else {
-  <div>
-    Error
-    <span class="time">{{message.date | date:'shortTime'}}</span>
-  </div>
+<div>
+  Error
+  <span class="time">{{message.date | date:'shortTime'}}</span>
+</div>
 }
-
-

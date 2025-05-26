@@ -50,5 +50,49 @@ export class SupabaseService {
     return url
   }
 
+  async uploadAudio(blob: Blob, date: string): Promise<string | null> {
+
+    const fileName = `AUDIO-${date}.webm`;
+
+    const { data, error } = await supabase.storage
+      .from('audios')
+      .upload(`audios/${fileName}`, blob, {
+        contentType: 'audio/webm',
+        upsert: true
+      });
+
+    if (error) {
+      console.error('Upload error:', error.message);
+      return null;
+    }
+
+    // Obtener URL pública
+    const { data: publicUrl } = supabase.storage.from('audios').getPublicUrl(data.path);
+    const url = `${publicUrl.publicUrl}?t=${Date.now()}`;
+    return url;
+  }
+
+  async uploadVideo(blob: Blob, date: string): Promise<string | null> {
+
+    const fileName = `VIDEO-${date}.webm`;
+
+    const { data, error } = await supabase.storage
+      .from('videos')
+      .upload(`videos/${fileName}`, blob, {
+        contentType: 'video/webm',
+        upsert: true
+      });
+
+    if (error) {
+      console.error('Upload error:', error.message);
+      return null;
+    }
+
+    // Obtener URL pública
+    const { data: publicUrl } = supabase.storage.from('videos').getPublicUrl(data.path);
+    const url = `${publicUrl.publicUrl}?t=${Date.now()}`;
+    return url;
+  }
+
 }
 

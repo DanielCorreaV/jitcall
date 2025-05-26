@@ -3,6 +3,8 @@ package com.jitcall.app;
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
 import com.jitcall.plugins.jitsiplugin.JitsiPluginPlugin;
+import com.capacitorcommunity.videorecorder.VideoRecorderPlugin;
+import com.capacitorcommunity.videorecorder.R;
 import android.view.View;
 
 public class MainActivity extends BridgeActivity {
@@ -10,7 +12,8 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     registerPlugin(JitsiPluginPlugin.class);
-
+    registerPlugin(VideoRecorderPlugin.class);
+    setContentView(R.layout.activity_main);
     enableImmersiveMode();
   }
 

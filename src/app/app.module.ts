@@ -12,7 +12,17 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, CoreModule, HttpClientModule],
+  imports: [
+    BrowserModule, 
+    IonicModule.forRoot({
+  scrollAssist: true,
+  scrollPadding: false,
+})
+, 
+    AppRoutingModule, 
+    CoreModule, 
+    HttpClientModule
+  ],
   providers: [
     { 
       provide: RouteReuseStrategy, 
@@ -25,5 +35,6 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     }
   ],
   bootstrap: [AppComponent],
+  
 })
 export class AppModule {}

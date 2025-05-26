@@ -52,11 +52,11 @@ export class PickFilesService {
   }
 }
 
-async takePhoto(): Promise<{ base64Src: string, base64: string, path?: string } | null> {
+async takePhoto(edit?:boolean): Promise<{ base64Src: string, base64: string, path?: string } | null> {
     try {
       const image = await Camera.getPhoto({
         quality: 90,
-        allowEditing: true,
+        allowEditing: edit|| false,
         resultType: CameraResultType.Base64,
         source: CameraSource.Camera
       });

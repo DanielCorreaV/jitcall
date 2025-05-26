@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FcmService } from './core/services/fcm.service';
-import { NavController } from '@ionic/angular';
-import { StatusBar, Style } from '@capacitor/status-bar';
-
+import { NavController, Platform } from '@ionic/angular';
+import { StatusBar } from '@capacitor/status-bar';
+import { Capacitor } from '@capacitor/core';
+import { Keyboard } from '@capacitor/keyboard';
 
 @Component({
   selector: 'app-root',
@@ -10,28 +11,46 @@ import { StatusBar, Style } from '@capacitor/status-bar';
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   constructor(
     private fcm: FcmService,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private platform: Platform
   ) {
-    this.fcm.onNotificationReceived().subscribe(notification => {
-      if (notification && notification.data?.type === 'incoming_call') {
-        console.log('Notificación de llamada entrante:', notification);
+    this.setupNotifications();
+    this.initializeApp();
+  }
 
+  ngOnInit(): void {
+    StatusBar.hide();
+  }
+
+  private setupNotifications() {
+    this.fcm.onNotificationReceived().subscribe(notification => {
+      if (notification?.data?.type === 'incoming_call') {
         const meetingId = notification.data.meetingId;
         const name = notification.data.name || 'Llamada entrante';
 
         this.navCtrl.navigateForward('/call', {
-          queryParams: {
-            meetingId,
-            name
-          }
+          queryParams: { meetingId, name }
         });
       }
     });
   }
-  ngOnInit(): void {
-    StatusBar.hide();
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      Keyboard.setAccessoryBarVisible({ isVisible: false });
+
+      Keyboard.setScroll({ isDisabled: false });
+
+      Keyboard.addListener('keyboardWillShow', () => {
+        document.body.classList.add('keyboard-open');
+      });
+
+      Keyboard.addListener('keyboardWillHide', () => {
+        document.body.classList.remove('keyboard-open');
+      });
+    });
   }
 }

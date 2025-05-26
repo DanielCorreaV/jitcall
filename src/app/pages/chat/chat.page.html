@@ -6,23 +6,22 @@
       </ion-buttons>
 
       <div class="contact-info">
-        <img [src]="contact.image||'assets/icon/placeholder.png'" alt="Avatar" class="contact-avatar">
-        <div class="contact-name">{{contact.name+ " "+ contact.surname}}</div>
+        <img [src]="contact.image || 'assets/icon/placeholder.png'" alt="Avatar" class="contact-avatar" />
+        <div class="contact-name">{{ contact.name + ' ' + contact.surname }}</div>
       </div>
     </div>
 
     <div class="header-right" slot="end">
-      <ion-icon name="call" class="header-icon"></ion-icon>
+      <ion-icon name="call" class="header-icon" (click)="gotoCall()"></ion-icon>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="chat-container">
+<ion-content [fullscreen]="true" (click)="isselecting = false">
+  <div class="chat-container" #chatContent>
     @if(messages){
     @for(group of messages; track group.date){
     <div class="date-separator">{{ group.date }}</div>
-
     <div class="message-group">
       @for(message of group.messages; track message.id){
       @if(message.from == uid){
@@ -31,24 +30,70 @@
       <app-message [message]="message" class="message received"></app-message>
       }
       }
+
     </div>
     }
+
     }
   </div>
 </ion-content>
 
+<div class="chat-footer">
+  @if(optionSelected==1 || optionSelected==2){
+  @if(preview){
+  <img [src]="preview" alt="image" />
+  }
+  }
+  @if(optionSelected==3){
+  <ion-button fill="clear" (click)="cancelRecording()">
+    <ion-icon name="trash-outline"></ion-icon>
+  </ion-button>
+  }
+  @if(optionSelected==4){
+  }
+  @if(optionSelected==5){
+  @if(preview){
+  <video [src]="preview" controls></video>
+  }
 
-<ion-footer class="message-bar">
-  <ion-toolbar>
-    <ion-item lines="none">
-      <ion-input type="text" placeholder="Escribe un mensaje..." [(ngModel)]="messageText"
-        class="message-input"></ion-input>
-      <ion-button fill="clear" slot="end" (click)="sendFile()">
-        <ion-icon name="attach-outline" slot="icon-only" style="font-size: 20px;"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" slot="end" (click)="sendMessage()">
-        <ion-icon name="send" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-toolbar>
-</ion-footer>
+  <ion-button fill="clear" (click)="cancelVideo()">
+    <ion-icon name="trash-outline"></ion-icon>
+  </ion-button>
+  }
+
+  <ion-item lines="none">
+    <ion-input type="text" placeholder="Escribe un mensaje..." [(ngModel)]="messageText" class="message-input"
+      (keyup.enter)="sendMessage()"></ion-input>
+    <ion-button fill="clear" (click)="isselecting = !isselecting" class="bar-icons">
+      <ion-icon name="attach-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    @if(optionSelected==3){
+    <ion-button fill="clear" (click)="stopandUpload()">
+      <ion-icon name="mic-off-outline"></ion-icon>
+    </ion-button>
+    } @else {
+    <ion-button fill="clear" (click)="sendMessage()" class="bar-icons">
+      <ion-icon name="send" slot="icon-only"></ion-icon>
+    </ion-button>
+    }
+
+  </ion-item>
+</div>
+
+<div *ngIf="isselecting" class="options">
+  <ion-button (click)="selectOption(1)" class="option-button">
+    <ion-icon name="camera" class="option-icon"></ion-icon>
+  </ion-button>
+  <ion-button (click)="selectOption(2)" class="option-button">
+    <ion-icon name="image" class="option-icon"></ion-icon>
+  </ion-button>
+  <ion-button (click)="selectOption(3)" class="option-button">
+    <ion-icon name="mic" class="option-icon"></ion-icon>
+  </ion-button>
+  <ion-button (click)="selectOption(4)" class="option-button">
+    <ion-icon name="location" class="option-icon"></ion-icon>
+  </ion-button>
+  <ion-button (click)="selectOption(5)" class="option-button">
+    <ion-icon name="film" class="option-icon"></ion-icon>
+  </ion-button>
+</div>
