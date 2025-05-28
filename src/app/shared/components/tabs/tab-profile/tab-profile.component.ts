@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -24,7 +24,7 @@ export class TabProfileComponent implements OnInit {
   previewImage = '';
   editingImage = false;
   constructor(
-    @Inject('FormBuilder') private fb: FormBuilder,
+    private fb: FormBuilder,
     private usr: UserService,
     private fbSvc: FirebaseService,
     private toastCtrl: ToastController,

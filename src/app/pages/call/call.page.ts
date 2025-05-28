@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
-//import { JitsiPlugin } from 'jitsi-plugin/src';
+import { JitsiPlugin } from 'jitsi-plugin/src';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class CallPage implements OnInit {
 
   async handleJoinCall(roomName: string) {
     try {
-     // await JitsiPlugin.joinCall({ meetingId: roomName, userName: this.name });
+      await JitsiPlugin.joinCall({ meetingId: roomName, userName: this.name });
       console.log('Unido a la sala:', roomName);
     } catch (error) {
       console.error('Error al unirse a la llamada:', error);
