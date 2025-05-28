@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private user: UserService) {}
 
   sendNotification(token: string, userId: string, meetingId: string, contactName: string, userFrom: string): Observable<any> {
     
@@ -61,6 +62,43 @@ export class NotificationService {
     } catch (error) {
       console.error('Error al obtener el token:', error);
     }
+  }
+
+  async sendChatNotification(uid: string, cuid: string){
+    const currentUser = await this.user.getUserById(uid);
+    const contact = await this.user.getUserById(cuid);
+
+    
+    
+    const payload = {
+      token: contact.token,
+      notification: {
+        title: 'Llamada entrante',
+        body: `${currentUser.name} te está llamando`,
+      },
+      android: {
+        priority: 'high',
+        data: {
+          userId: currentUser.id,
+          meetingId: "chat-room",
+          type: 'new-message',
+          name: contact.name,
+          userFrom: currentUser.token,
+        },
+      },
+    };
+
+    console.log("payload: "+ payload);
+
+    return this.http.post(
+      'https://ravishing-courtesy-production.up.railway.app/notifications',
+      payload,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      }
+    );
   }
 
 

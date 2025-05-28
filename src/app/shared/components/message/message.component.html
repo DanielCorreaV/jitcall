@@ -1,39 +1,40 @@
-@if (message.type == "text") {
-<div>
-  {{message.content}}
-  <span class="time">{{message.date | date:'shortTime'}}</span>
+<!-- TEXT -->
+<div *ngIf="message.type === 'text'">
+  {{ message.content }}
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
-}
 
-@else if(message.type == "image") {
-<div>
-  <img src="{{message.content}}" alt="image">
-  <span class="time">{{message.date | date:'shortTime'}}</span>
+<!-- IMAGE -->
+<div *ngIf="message.type === 'image'">
+  <img [src]="message.content" alt="image">
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
-}
 
-@else if(message.type == "audio") {
-<div>
-  <audio controls class="audio-message" preload="metadata">
+<!-- AUDIO -->
+<div *ngIf="message.type === 'audio'" >
+  <audio controls class="audio-message" preload="metadata" style="width: 60vw;">
     <source [src]="message.content" type="audio/webm">
   </audio>
   <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
-}
 
-@else if(message.type == "video") {
-<div class="video-message">
-  <video controls preload="metadata">
+<!-- VIDEO -->
+<div *ngIf="message.type === 'video'" class="video-message">
+  <video controls preload="metadata" style="width: 60vw;">
     <source [src]="message.content" type="video/webm">
     Tu navegador no soporta el video.
   </video>
   <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
-}
 
-@else {
-<div>
-  Error
-  <span class="time">{{message.date | date:'shortTime'}}</span>
+<!-- LOCATION -->
+<div *ngIf="message.type === 'location'">
+  <div #mapContainer id="map" style="width: 60vw; height: 200px; border-radius: 10px;"></div>
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
-}
+
+<!-- DEFAULT -->
+<div *ngIf="!['text', 'image', 'audio', 'video', 'location'].includes(message.type)">
+  Error
+  <span class="time">{{ message.date | date: 'shortTime' }}</span>
+</div>

@@ -37,6 +37,11 @@
     }
   </div>
 </ion-content>
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGzr6K2Ua5p-51Qy4oXTuLEzRkct96FBE&libraries=places"
+  defer
+></script>
+
 
 <div class="chat-footer">
   @if(optionSelected==1 || optionSelected==2){
@@ -95,5 +100,8 @@
   </ion-button>
   <ion-button (click)="selectOption(5)" class="option-button">
     <ion-icon name="film" class="option-icon"></ion-icon>
+  </ion-button>
+  <ion-button (click)="selectOption(6)" class="option-button">
+    <ion-icon name="folder" class="option-icon"></ion-icon>
   </ion-button>
 </div>

@@ -1,6 +1,6 @@
 export interface message{
     from: String,
     type: string,
-    content: string,
+    content: any,
     date: number
 }

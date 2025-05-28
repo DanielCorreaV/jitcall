@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/core/services/firebase.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Contact } from 'src/app/models/contact.model';
-import { JitsiPlugin } from 'jitsi-plugin/src';
+//import { JitsiPlugin } from 'jitsi-plugin/src';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ChatService } from 'src/app/core/services/chat.service';
 
@@ -114,42 +114,43 @@ export class ViewPage implements OnInit {
       })
     }
   }
-  async goToCall() {
+
+   async goToCall() {
   
-    if (this.uid) {
-      const fcmToken = await this.usr.getTokenByPhone(this.contact.phone);
-      const userId = this.contactId;
-      const contactName = this.contact.name;
-      const userFrom = this.uid;
+  //   if (this.uid) {
+  //     const fcmToken = await this.usr.getTokenByPhone(this.contact.phone);
+  //     const userId = this.contactId;
+  //     const contactName = this.contact.name;
+  //     const userFrom = this.uid;
   
-      let room = (await JitsiPlugin.createRoom()).meetingId;
+  //     let room = (await JitsiPlugin.createRoom()).meetingId;
   
-      if (fcmToken && room) {
-        this.notificationService
-          .sendNotification(fcmToken, userId, room, contactName, userFrom)
-          .subscribe({
-            next: async (response) => {
-              console.log('Notificación enviada con éxito:', response);
-              try {
-                await JitsiPlugin.joinCall({
-                  meetingId: room,
-                  userName: contactName 
-                });
-                console.log('Unido a la sala:', room);
-              } catch (error) {
-                console.error('Error al unirse a la sala:', error);
-              }
-            },
-            error: (err) => {
-              console.error('Error al enviar la notificación:', err);
-            },
-          });
-      } else {
-        console.log("No hay token FCM o room");
-      }
-    }
+  //     if (fcmToken && room) {
+  //       this.notificationService
+  //         .sendNotification(fcmToken, userId, room, contactName, userFrom)
+  //         .subscribe({
+  //           next: async (response) => {
+  //             console.log('Notificación enviada con éxito:', response);
+  //             try {
+  //               await JitsiPlugin.joinCall({
+  //                 meetingId: room,
+  //                 userName: contactName 
+  //               });
+  //               console.log('Unido a la sala:', room);
+  //             } catch (error) {
+  //               console.error('Error al unirse a la sala:', error);
+  //             }
+  //           },
+  //           error: (err) => {
+  //             console.error('Error al enviar la notificación:', err);
+  //           },
+  //         });
+  //     } else {
+  //       console.log("No hay token FCM o room");
+  //     }
+  //   }
       
-  }
+   }
 
   cancelEdit(){
     if(this.auxData){
