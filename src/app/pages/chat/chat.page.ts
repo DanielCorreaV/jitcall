@@ -129,7 +129,10 @@ export class ChatPage implements OnInit, AfterViewChecked {
     if(this.optionSelected == 6) {
       console.log("se seleccionó la opción 6");
       type = "file";
-      content = await this.supabase.uploadFile(this.file.blob, Date.now().toString()) || this.file.base64Src;
+      content = JSON.stringify({
+        name: this.file.name,
+        url: await this.supabase.uploadFile(this.file.blob, this.file.name) || this.file.base64Src
+      });
       this.reset();
     }
 

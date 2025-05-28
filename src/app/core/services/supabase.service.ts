@@ -94,14 +94,14 @@ export class SupabaseService {
     return url;
   }
 
-  async uploadFile(blob: Blob, date: string): Promise<string | null> {
-    const fileName = `FILE-${date}.pdf`; 
+  async uploadFile(blob: Blob, name: string): Promise<string | null> {
+    const fileName = name || `FILE-${Date.now()}.bin`; 
 
     const { data, error } = await supabase.storage
       .from('files')
       .upload(`files/${fileName}`, blob, {
         contentType: blob.type,
-        upsert: true
+        upsert: false
       });
 
     if (error) {

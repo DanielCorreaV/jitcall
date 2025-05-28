@@ -36,7 +36,7 @@
 <!-- FILE -->
 <div *ngIf="message.type === 'file'">
   <a [href]="message.content" download>
-    Download File
+    {{ file?.name || 'Archivo' }}
   </a>
   <span class="time">{{ message.date | date: 'shortTime' }}</span>
 </div>
