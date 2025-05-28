@@ -94,5 +94,26 @@ export class SupabaseService {
     return url;
   }
 
+  async uploadFile(blob: Blob, date: string): Promise<string | null> {
+    const fileName = `FILE-${date}.pdf`; 
+
+    const { data, error } = await supabase.storage
+      .from('files')
+      .upload(`files/${fileName}`, blob, {
+        contentType: blob.type,
+        upsert: true
+      });
+
+    if (error) {
+      console.error('Upload error:', error.message);
+      return null;
+    }
+
+    // Obtener URL pública
+    const { data: publicUrl } = supabase.storage.from('files').getPublicUrl(data.path);
+    const url = `${publicUrl.publicUrl}?t=${Date.now()}`;
+    return url;
+  }
+
 }
 

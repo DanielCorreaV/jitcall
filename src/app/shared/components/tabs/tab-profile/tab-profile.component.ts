@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
@@ -23,15 +23,16 @@ export class TabProfileComponent implements OnInit {
   auxData: Contact | null = null;
   previewImage = '';
   editingImage = false;
-
   constructor(
-    private fb: FormBuilder,
+    @Inject('FormBuilder') private fb: FormBuilder,
     private usr: UserService,
     private fbSvc: FirebaseService,
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private pickFiles: PickFilesService
   ) {
+
+
     this.profileForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -124,7 +125,7 @@ export class TabProfileComponent implements OnInit {
   }
 
   async onFileSelected() {
-    const result = await this.pickFiles.pickFiles();
+    const result = await this.pickFiles.pickImage();
 
     if (result) {
       if (this.user) {

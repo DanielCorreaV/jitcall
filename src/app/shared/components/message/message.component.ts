@@ -16,6 +16,8 @@ export class MessageComponent implements AfterViewInit {
     date: 0
   };
 
+  file: any = null;
+
   @ViewChild('mapContainer', { static: false }) mapElement!: ElementRef;
   map!: google.maps.Map;
 
@@ -26,6 +28,10 @@ export class MessageComponent implements AfterViewInit {
       }).catch(err => {
         console.error('No se pudo cargar Google Maps:', err);
       });
+    }
+    if (this.message.type === 'file') {
+      this.file = JSON.parse(this.message.content);
+      console.log("Archivo recibido:", this.file);
     }
   }
 

@@ -32,6 +32,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
   messages: any[] = [];
   messageText: any = "";
   isselecting: boolean = false;
+  file: any = null;
 
   preview: any = "";
   optionSelected: number = 0;
@@ -125,6 +126,12 @@ export class ChatPage implements OnInit, AfterViewChecked {
       content = this.preview;
       this.reset();
     }
+    if(this.optionSelected == 6) {
+      console.log("se seleccionó la opción 6");
+      type = "file";
+      content = await this.supabase.uploadFile(this.file.blob, Date.now().toString()) || this.file.base64Src;
+      this.reset();
+    }
 
     if (this.uid) {
       const message: message = {
@@ -151,6 +158,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.preview = "";
       this.optionSelected = 0;
       this.isselecting = false;
+      this.file = null;
   }
 
   async gotoCall() {
@@ -189,7 +197,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
   }
 
   async onFileSelected() {
-    const result = await this.pickFiles.pickFiles();
+    const result = await this.pickFiles.pickImage();
 
     if (result) {
       if (this.user) {
@@ -261,8 +269,20 @@ async sendLocation(){
   const cords = await this.location.getLocation();
   const lonlat = [cords?.longitude, cords?.latitude];
   this.preview = lonlat;
-  this.sendMessage();
   
+}
+
+async selectFile() {
+  const result = await this.pickFiles.pickFile();
+  if (result) {
+    this.file= result;
+    this.preview = JSON.stringify(result);
+  }
+}
+
+async cancelFile() {
+  this.reset();
+  this.isselecting = !this.isselecting;
 }
 
   async selectOption(option: number) {
@@ -291,6 +311,11 @@ async sendLocation(){
     if (option === 5) {
       this.isselecting = !this.isselecting;
       this.recordVideo();
+    }
+
+    if (option === 6) {
+      this.isselecting = !this.isselecting;
+      this.selectFile()
     }
   }
 

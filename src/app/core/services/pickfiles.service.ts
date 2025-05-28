@@ -21,7 +21,7 @@ export class PickFilesService {
   }
   };
 
-  async pickFiles(): Promise<{ base64Src: string, base64: string, path?: string } | null> {
+  async pickImage(): Promise<{ base64Src: string, base64: string, path?: string } | null> {
   try {
     const result = await FilePicker.pickFiles({
       types: ['image/*'],
@@ -75,6 +75,37 @@ async takePhoto(edit?:boolean): Promise<{ base64Src: string, base64: string, pat
     }
   }
 
+  async pickFile() {
+  const result = await FilePicker.pickFiles({
+    types: ['image/*', 'video/*', 'audio/*', 'application/pdf'],
+    limit: 1,
+    readData: true,
+  });
+
+  if (result.files.length === 0) {
+    console.log('No files selected');
+    return null;
+  }
+
+  const file = result.files[0];
+  const mimeType = file.mimeType || 'application/octet-stream';
+
+  const byteCharacters = atob(file.data!);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: mimeType });
+
+  return {
+    name: file.name,
+    mimeType,
+    blob,
+    base64: file.data!,
+    base64Src: `data:${mimeType};base64,${file.data!}`
+  };
+}
 
 
 }

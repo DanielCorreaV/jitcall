@@ -37,10 +37,8 @@
     }
   </div>
 </ion-content>
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGzr6K2Ua5p-51Qy4oXTuLEzRkct96FBE&libraries=places"
-  defer
-></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBGzr6K2Ua5p-51Qy4oXTuLEzRkct96FBE&libraries=places"
+  defer></script>
 
 
 <div class="chat-footer">
@@ -54,15 +52,24 @@
     <ion-icon name="trash-outline"></ion-icon>
   </ion-button>
   }
-  @if(optionSelected==4){
-  }
   @if(optionSelected==5){
   @if(preview){
   <video [src]="preview" controls></video>
   }
 
+
   <ion-button fill="clear" (click)="cancelVideo()">
     <ion-icon name="trash-outline"></ion-icon>
+  </ion-button>
+  }
+
+  @if(optionSelected==6){
+  <ion-button fill="clear" (click)="cancelFile()">
+    <ion-icon name="trash-outline"></ion-icon>
+    @if(preview != ''){
+    <div>{{file.name}}</div>
+    }
+
   </ion-button>
   }
 
