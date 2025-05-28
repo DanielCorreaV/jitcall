@@ -52,12 +52,18 @@
     <ion-icon name="trash-outline"></ion-icon>
   </ion-button>
   }
-  @if(optionSelected==5){
-  @if(preview){
-  <video [src]="preview" controls></video>
+  @if(optionSelected==4){
+  <div class="location-preview">
+    <ion-button fill="clear" (click)="reset()">
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+    Location Calculated
+
+  </div>
+
   }
 
-
+  @if(optionSelected==5){
   <ion-button fill="clear" (click)="cancelVideo()">
     <ion-icon name="trash-outline"></ion-icon>
   </ion-button>

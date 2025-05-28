@@ -13,7 +13,6 @@ public class MainActivity extends BridgeActivity {
     super.onCreate(savedInstanceState);
     registerPlugin(JitsiPluginPlugin.class);
     registerPlugin(VideoRecorderPlugin.class);
-    setContentView(R.layout.activity_main);
     enableImmersiveMode();
   }
 
